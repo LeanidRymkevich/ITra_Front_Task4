@@ -3,7 +3,8 @@ import { FC } from 'react';
 import { APP_NAME, PATHS } from '../../constants/constants';
 import { HEADER_LINK_NAMES, PAGE_NAMES } from '../../types/enums';
 import Container from '../Container/Container';
-import { Offcanvas } from 'bootstrap';
+
+const MENU_TITLE = 'Menu';
 
 const Header: FC = () => {
   return (
@@ -11,47 +12,66 @@ const Header: FC = () => {
       <Container>
         <nav className="navbar navbar-expand-sm">
           <div className="container-fluid">
-            <span className="navbar-brand">{APP_NAME}</span>
+            <span className="navbar-brand fw-bold">{APP_NAME}</span>
 
             <button
               className="navbar-toggler"
               type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasNavbar"
+              aria-controls="offcanvasNavbar"
               aria-label="Toggle navigation"
             >
               <span className="navbar-toggler-icon"></span>
             </button>
 
             <div
-              className="collapse navbar-collapse justify-content-end"
-              id="navbarNav"
+              className="offcanvas offcanvas-end w-50"
+              tabIndex={-1}
+              id="offcanvasNavbar"
+              aria-labelledby="offcanvasNavbarLabel"
             >
-              <ul className="navbar-nav">
-                <li className="nav-item">
-                  <a
-                    className="nav-link active"
-                    aria-current="page"
-                    href={PATHS[PAGE_NAMES.SIGN_IN]}
-                  >
-                    {HEADER_LINK_NAMES.SIGN_IN}
-                  </a>
-                </li>
+              <div className="offcanvas-header px-3 py-3">
+                <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
+                  {MENU_TITLE}
+                </h5>
 
-                <li className="nav-item">
-                  <a className="nav-link" href={PATHS[PAGE_NAMES.SIGN_UP]}>
-                    {HEADER_LINK_NAMES.SIGN_UP}
-                  </a>
-                </li>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="offcanvas"
+                  aria-label="Close"
+                ></button>
+              </div>
 
-                <li className="nav-item">
-                  <a className="nav-link" href={PATHS[PAGE_NAMES.SIGN_IN]}>
-                    {HEADER_LINK_NAMES.SIGN_OUT}
-                  </a>
-                </li>
-              </ul>
+              <div className="offcanvas-body px-3 py-0">
+                <ul className="navbar-nav nav-underline justify-content-end flex-grow-1">
+                  <li className="nav-item">
+                    <a
+                      className="nav-link w-fit-content active disabled"
+                      aria-current="page"
+                      href={PATHS[PAGE_NAMES.SIGN_IN]}
+                    >
+                      {HEADER_LINK_NAMES.SIGN_IN}
+                    </a>
+                  </li>
+
+                  <li className="nav-item">
+                    <a
+                      className="nav-link w-fit-content"
+                      href={PATHS[PAGE_NAMES.SIGN_UP]}
+                    >
+                      {HEADER_LINK_NAMES.SIGN_UP}
+                    </a>
+                  </li>
+
+                  <li className="nav-item w-fit-content">
+                    <a className="nav-link" href={PATHS[PAGE_NAMES.SIGN_IN]}>
+                      {HEADER_LINK_NAMES.SIGN_OUT}
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </nav>
@@ -61,7 +81,3 @@ const Header: FC = () => {
 };
 
 export default Header;
-
-const offcanvasElementList = document.querySelectorAll('.offcanvas');
-[...offcanvasElementList].forEach((offcanvasEl) => new Offcanvas(offcanvasEl));
-// TODO make menu on canvas
