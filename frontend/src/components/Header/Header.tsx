@@ -44,7 +44,7 @@ const Header: FC = () => {
                 ></button>
               </div>
 
-              <div className="offcanvas-body px-3 py-0">
+              <div className="offcanvas-body px-3 px-sm-0 py-0">
                 <ul className="navbar-nav nav-underline justify-content-end flex-grow-1">
                   <li className="nav-item">
                     <a
