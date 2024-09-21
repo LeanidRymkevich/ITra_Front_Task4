@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { APP_NAME, PATHS } from '../../constants/constants';
 import { HEADER_LINK_NAMES, PAGE_NAMES } from '../../types/enums';
 import Container from '../Container/Container';
+import { NavLink } from 'react-router-dom';
 
 const MENU_TITLE = 'Menu';
 
@@ -47,28 +48,31 @@ const Header: FC = () => {
               <div className="offcanvas-body px-3 px-sm-0 py-0">
                 <ul className="navbar-nav nav-underline justify-content-end flex-grow-1">
                   <li className="nav-item">
-                    <a
-                      className="nav-link w-fit-content active disabled"
+                    <NavLink
+                      className="nav-link w-fit-content"
                       aria-current="page"
-                      href={PATHS[PAGE_NAMES.SIGN_IN]}
+                      to={PATHS[PAGE_NAMES.SIGN_IN]}
                     >
                       {HEADER_LINK_NAMES.SIGN_IN}
-                    </a>
+                    </NavLink>
                   </li>
 
                   <li className="nav-item">
-                    <a
+                    <NavLink
                       className="nav-link w-fit-content"
-                      href={PATHS[PAGE_NAMES.SIGN_UP]}
+                      to={PATHS[PAGE_NAMES.SIGN_UP]}
                     >
                       {HEADER_LINK_NAMES.SIGN_UP}
-                    </a>
+                    </NavLink>
                   </li>
 
                   <li className="nav-item w-fit-content">
-                    <a className="nav-link" href={PATHS[PAGE_NAMES.SIGN_IN]}>
+                    <NavLink
+                      className="nav-link"
+                      to={PATHS[PAGE_NAMES.SIGN_IN]}
+                    >
                       {HEADER_LINK_NAMES.SIGN_OUT}
-                    </a>
+                    </NavLink>
                   </li>
                 </ul>
               </div>

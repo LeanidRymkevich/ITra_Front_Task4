@@ -13,9 +13,8 @@ import NotFound from '../pages/NotFound/NotFound';
 import { ROOT_PATH } from '../constants/constants';
 
 const useCustomRouter = () => {
-  const [user, isLoading] = ['user', false]; // some way to get authentication state
+  const [user, isLoading] = ['d', false]; // some way to get authentication state
 
-  // TODO play with routes and header links
   const routes = createBrowserRouter(
     createRoutesFromElements(
       <Route path={ROOT_PATH} element={<Layout />} errorElement={<Fallback />}>

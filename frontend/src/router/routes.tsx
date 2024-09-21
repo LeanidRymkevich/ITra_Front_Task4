@@ -1,4 +1,4 @@
-import { Navigate, Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import AdminsBoard from '../pages/AdminsBoard/AdminsBoard';
 import SignIn from '../pages/SignIn/SignIn';
@@ -8,25 +8,23 @@ import { PAGE_NAMES } from '../types/enums';
 
 import { PATHS, ROOT_PATH } from '../constants/constants';
 
-export const privateRoutes: JSX.Element[] = [
-  <Route
-    key={'0'}
-    path={ROOT_PATH}
-    element={<Navigate to={PATHS[PAGE_NAMES.ADMINS_BOARD]!} />}
-  />,
-  <Route
-    key={'1'}
-    path={PATHS[PAGE_NAMES.ADMINS_BOARD]}
-    element={<AdminsBoard />}
-  />,
-];
+import { getRoutesArray } from '../utils/paths_utils';
 
-export const publicRoutes: JSX.Element[] = [
-  <Route
-    key={'0'}
-    path={ROOT_PATH}
-    element={<Navigate to={PATHS[PAGE_NAMES.SIGN_IN]!} />}
-  />,
-  <Route key={'1'} path={PATHS[PAGE_NAMES.SIGN_IN]} element={<SignIn />} />,
-  <Route key={'2'} path={PATHS[PAGE_NAMES.SIGN_UP]} element={<SignUp />} />,
-];
+const privateRoutesMap: Record<string, JSX.Element> = {
+  [ROOT_PATH]: <Navigate to={PATHS[PAGE_NAMES.ADMINS_BOARD]} />,
+  [PATHS[PAGE_NAMES.SIGN_IN]]: <Navigate to={PATHS[PAGE_NAMES.ADMINS_BOARD]} />,
+  [PATHS[PAGE_NAMES.SIGN_UP]]: <Navigate to={PATHS[PAGE_NAMES.ADMINS_BOARD]} />,
+  [PATHS[PAGE_NAMES.ADMINS_BOARD]]: <AdminsBoard />,
+};
+
+const publicRoutesMap: Record<string, JSX.Element> = {
+  [ROOT_PATH]: <Navigate to={PATHS[PAGE_NAMES.SIGN_IN]} />,
+  [PATHS[PAGE_NAMES.SIGN_IN]]: <SignIn />,
+  [PATHS[PAGE_NAMES.SIGN_UP]]: <SignUp />,
+  [PATHS[PAGE_NAMES.ADMINS_BOARD]]: <Navigate to={PATHS[PAGE_NAMES.SIGN_IN]} />,
+};
+
+const privateRoutes = getRoutesArray(privateRoutesMap);
+const publicRoutes = getRoutesArray(publicRoutesMap);
+
+export { privateRoutes, publicRoutes };

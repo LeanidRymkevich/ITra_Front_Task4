@@ -4,7 +4,7 @@ import { PAGE_NAMES } from './enums';
 type ChildrenOnlyProps = { children: ReactNode };
 
 type PathsMap = {
-  [value in PAGE_NAMES]?: string;
+  [value in Exclude<PAGE_NAMES, PAGE_NAMES.NOT_FOUND>]: string;
 };
 
 export type { ChildrenOnlyProps, PathsMap };
