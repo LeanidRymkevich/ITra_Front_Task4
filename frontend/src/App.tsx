@@ -1,15 +1,14 @@
 import { FC } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import useCustomRouter from './router/Router';
+import Spinner from './components/Spinner/Spinner';
 
 const App: FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { routes, isLoading } = useCustomRouter();
 
-  // TODO add spinner
-  // if (isLoading) {
-  //   return <LoadingSpinner />;
-  // }
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>
