@@ -11,4 +11,9 @@ enum HEADER_LINK_NAMES {
   SIGN_OUT = 'Sign Out',
 }
 
-export { PAGE_NAMES, HEADER_LINK_NAMES };
+enum FORM_INPUTS_TIPS {
+  EMAIL = 'Your email must be non-empty and follow pattern: [ld+=Sfn1-!#&?$ad][@gm1ail.co1m]',
+  PASSWORD = 'Enter non-empty string email',
+}
+
+export { PAGE_NAMES, HEADER_LINK_NAMES, FORM_INPUTS_TIPS };
