@@ -1,11 +1,4 @@
-import {
-  FC,
-  FormEvent,
-  FormEventHandler,
-  MouseEventHandler,
-  useRef,
-  useState,
-} from 'react';
+import { FC, FormEvent, FormEventHandler, useRef, useState } from 'react';
 
 import {
   PAGE_NAMES,
@@ -22,17 +15,20 @@ import PasswordInput from '../../components/FormComponents/PasswordInput/Passwor
 import TextInput from '../../components/FormComponents/TextInput/TextInput';
 
 import { authenticate } from '../../services/authentication';
+import { checkInputsMatch } from '../../utils/forms_utils';
 
 const SignUp: FC = (): JSX.Element => {
   const [isFormSending, setIsFormSending] = useState<boolean>(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [authErrorMsg, setAuthErrorMsg] = useState<string>('');
 
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
+  const repeatPasswordInputRef = useRef<HTMLInputElement | null>(null);
 
-  const onEyeClick: MouseEventHandler<HTMLButtonElement> = () => {
-    passwordInputRef.current!.type = !isPasswordVisible ? 'text' : 'password';
-    setIsPasswordVisible(!isPasswordVisible);
+  const onPasswordFocus = (): void => {
+    checkInputsMatch(
+      passwordInputRef.current!,
+      repeatPasswordInputRef.current!
+    );
   };
 
   // TODO Add redirection on successful auth and fit to auth process
@@ -101,13 +97,23 @@ const SignUp: FC = (): JSX.Element => {
 
             <PasswordInput
               {...{
-                isPasswordVisible,
                 isFormSending,
-                onEyeClick,
                 passwordInputRef,
                 labelText: FORM_LABEL_TEXTS.PASSWORD,
-                tipText: FORM_INPUTS_TIPS.PASSWORD,
+                tipText: FORM_INPUTS_TIPS.REPEAT_PASSWORD,
                 name: FORM_LABEL_NAME_ATTR.PASSWORD,
+                onBlur: onPasswordFocus,
+              }}
+            ></PasswordInput>
+
+            <PasswordInput
+              {...{
+                isFormSending,
+                passwordInputRef: repeatPasswordInputRef,
+                labelText: FORM_LABEL_TEXTS.REPEAT_PASSWORD,
+                tipText: FORM_INPUTS_TIPS.REPEAT_PASSWORD,
+                name: FORM_LABEL_NAME_ATTR.REPEAT_PASSWORD,
+                onBlur: onPasswordFocus,
               }}
             ></PasswordInput>
 

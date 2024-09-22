@@ -8,6 +8,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
   labelText,
   tipText,
   name,
+  onBlur,
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
@@ -43,6 +44,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
           required
           ref={passwordInputRef}
           disabled={isFormSending}
+          onBlur={onBlur}
         />
         <div className="invalid-feedback">{tipText}</div>
       </div>

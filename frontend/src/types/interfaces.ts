@@ -1,4 +1,9 @@
-import { FormEventHandler, LegacyRef, ReactNode } from 'react';
+import {
+  FocusEventHandler,
+  FormEventHandler,
+  LegacyRef,
+  ReactNode,
+} from 'react';
 
 interface ChildrenOnlyProps {
   children: ReactNode;
@@ -21,6 +26,7 @@ interface TextInputProps {
 interface PasswordInputProps
   extends Omit<TextInputProps, 'type' | 'signElement'> {
   passwordInputRef: LegacyRef<HTMLInputElement>;
+  onBlur?: FocusEventHandler<HTMLInputElement>;
 }
 
 interface FormSubmitButtonProps {

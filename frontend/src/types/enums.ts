@@ -13,11 +13,14 @@ enum HEADER_LINK_NAMES {
 
 enum FORM_INPUTS_TIPS {
   EMAIL = 'Your email must be non-empty and follow pattern: [ld+=Sfn1-!#&?$ad][@gm1ail.co1m]',
-  PASSWORD = 'Enter non-empty string email',
+  PASSWORD = 'Enter non-empty password',
+  FIRST_LAST_NAME = 'Enter your name using latin characters, numbers and [-] sign',
+  REPEAT_PASSWORD = 'Enter non-empty password, password and repeat-password fields must be identical',
 }
 
 enum FORM_LABEL_TEXTS {
   PASSWORD = 'Password',
+  REPEAT_PASSWORD = 'Repeat Password',
   EMAIL = 'Email',
   FIRST_NAME = 'First Name',
   LAST_NAME = 'Last Name',
@@ -25,6 +28,7 @@ enum FORM_LABEL_TEXTS {
 
 enum FORM_LABEL_NAME_ATTR {
   PASSWORD = 'password',
+  REPEAT_PASSWORD = 'repeatPassword',
   EMAIL = 'email',
   FIRST_NAME = 'firstName',
   LAST_NAME = 'lastName',
