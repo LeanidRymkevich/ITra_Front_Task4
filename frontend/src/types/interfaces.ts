@@ -14,14 +14,17 @@ interface CustomFormProps {
   onSubmit: FormEventHandler<HTMLFormElement>;
 }
 
-interface EmailInputProps {
+interface TextInputProps {
   isFormSending: boolean;
   labelText: string;
   tipText: string;
   name: string;
+  type: 'email' | 'text';
+  signElement: ReactNode;
 }
 
-interface PasswordInputProps extends EmailInputProps {
+interface PasswordInputProps
+  extends Omit<TextInputProps, 'type' | 'signElement'> {
   isPasswordVisible: boolean;
   onEyeClick: MouseEventHandler<HTMLButtonElement>;
   passwordInputRef: LegacyRef<HTMLInputElement>;
@@ -40,7 +43,7 @@ export type {
   ChildrenOnlyProps,
   CustomFormProps,
   PasswordInputProps,
-  EmailInputProps,
+  TextInputProps,
   FormSubmitButtonProps,
   FormAlertProps,
 };

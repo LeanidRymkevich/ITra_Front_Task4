@@ -6,19 +6,22 @@ import {
   useRef,
   useState,
 } from 'react';
+
+import {
+  PAGE_NAMES,
+  FORM_INPUTS_TIPS,
+  FORM_LABEL_TEXTS,
+  FORM_LABEL_NAME_ATTR,
+} from '../../types/enums';
+
 import Container from '../../components/Container/Container';
-import { PAGE_NAMES, FORM_INPUTS_TIPS } from '../../types/enums';
-import { authenticate } from '../../services/authentication';
 import CustomForm from '../../components/FormComponents/CustomForm/CustomForm';
 import PasswordInput from '../../components/FormComponents/PasswordInput/PasswordInput';
-import EmailInput from '../../components/FormComponents/EmailInput/EmailInput';
 import FormSubmitButton from '../../components/FormComponents/FormSubmitButton/FormSubmitButton';
 import FormAlert from '../../components/FormComponents/FormAlert/FormAlert';
 
-const PASSWORD_LABEL_TEXT = 'Password';
-const EMAIL_LABEL_TEXT = 'Email';
-const PASSWORD_NAME = 'password';
-const EMAIL_NAME = 'email';
+import { authenticate } from '../../services/authentication';
+import TextInput from '../../components/FormComponents/TextInput/TextInput';
 
 const SignIn: FC = (): JSX.Element => {
   const [isFormSending, setIsFormSending] = useState<boolean>(false);
@@ -63,12 +66,14 @@ const SignIn: FC = (): JSX.Element => {
           <h2 className="display-6 fw-bold mb-3">{PAGE_NAMES.SIGN_IN}</h2>
 
           <CustomForm onSubmit={onSubmit}>
-            <EmailInput
+            <TextInput
               {...{
                 isFormSending,
-                labelText: EMAIL_LABEL_TEXT,
+                labelText: FORM_LABEL_TEXTS.EMAIL,
                 tipText: FORM_INPUTS_TIPS.EMAIL,
-                name: EMAIL_NAME,
+                name: FORM_LABEL_NAME_ATTR.EMAIL,
+                type: 'email',
+                signElement: <i className="bi bi-envelope-fill"></i>,
               }}
             />
 
@@ -78,9 +83,9 @@ const SignIn: FC = (): JSX.Element => {
                 isFormSending,
                 onEyeClick,
                 passwordInputRef,
-                labelText: PASSWORD_LABEL_TEXT,
+                labelText: FORM_LABEL_TEXTS.PASSWORD,
                 tipText: FORM_INPUTS_TIPS.PASSWORD,
-                name: PASSWORD_NAME,
+                name: FORM_LABEL_NAME_ATTR.PASSWORD,
               }}
             ></PasswordInput>
 

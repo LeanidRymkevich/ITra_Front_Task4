@@ -1,14 +1,14 @@
 import { FC } from 'react';
 
-import { EmailInputProps } from '../../../types/interfaces';
+import { TextInputProps } from '../../../types/interfaces';
 
-const EMAIL_SIGN = '@';
-
-const EmailInput: FC<EmailInputProps> = ({
+const TextInput: FC<TextInputProps> = ({
   isFormSending,
   labelText,
   tipText,
   name,
+  type,
+  signElement,
 }) => {
   const htmlFor = `validationCustom${name}`;
   const spanId = `inputGroup${name}`;
@@ -20,11 +20,11 @@ const EmailInput: FC<EmailInputProps> = ({
       </label>
       <div className="input-group has-validation">
         <span className="input-group-text" id={spanId}>
-          {EMAIL_SIGN}
+          {signElement}
         </span>
         <input
           name={name}
-          type="email"
+          type={type}
           className="form-control"
           id={htmlFor}
           aria-describedby={spanId}
@@ -37,4 +37,4 @@ const EmailInput: FC<EmailInputProps> = ({
   );
 };
 
-export default EmailInput;
+export default TextInput;

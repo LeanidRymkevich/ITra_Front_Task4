@@ -16,4 +16,24 @@ enum FORM_INPUTS_TIPS {
   PASSWORD = 'Enter non-empty string email',
 }
 
-export { PAGE_NAMES, HEADER_LINK_NAMES, FORM_INPUTS_TIPS };
+enum FORM_LABEL_TEXTS {
+  PASSWORD = 'Password',
+  EMAIL = 'Email',
+  FIRST_NAME = 'First Name',
+  LAST_NAME = 'Last Name',
+}
+
+enum FORM_LABEL_NAME_ATTR {
+  PASSWORD = 'password',
+  EMAIL = 'email',
+  FIRST_NAME = 'firstName',
+  LAST_NAME = 'lastName',
+}
+
+export {
+  PAGE_NAMES,
+  HEADER_LINK_NAMES,
+  FORM_INPUTS_TIPS,
+  FORM_LABEL_TEXTS,
+  FORM_LABEL_NAME_ATTR,
+};
