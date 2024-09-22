@@ -5,6 +5,8 @@ import { HEADER_LINK_NAMES, PAGE_NAMES } from '../../types/enums';
 import Container from '../Container/Container';
 import { NavLink } from 'react-router-dom';
 
+// TODO add links hiding relative to auth state, add name displaying, and handler to SignOut Link
+
 const MENU_TITLE = 'Menu';
 
 const Header: FC = () => {

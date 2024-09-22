@@ -6,7 +6,7 @@ const checkInputsMatch = (
 ): boolean => {
   const isMatch = input_1.value === input_2.value;
   const msg = isMatch ? '' : MISMATCH_ERROR_MSG;
-  console.log(isMatch);
+
   input_1.setCustomValidity(msg);
   input_2.setCustomValidity(msg);
 

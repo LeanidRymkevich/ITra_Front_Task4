@@ -2,6 +2,7 @@ import {
   FocusEventHandler,
   FormEventHandler,
   LegacyRef,
+  MouseEventHandler,
   ReactNode,
 } from 'react';
 
@@ -38,6 +39,14 @@ interface FormAlertProps {
   msg: string;
 }
 
+interface CustomButtonProps {
+  text?: string;
+  icon?: ReactNode;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  classes?: string;
+  disabled?: boolean;
+}
+
 export type {
   ChildrenOnlyProps,
   CustomFormProps,
@@ -45,4 +54,5 @@ export type {
   TextInputProps,
   FormSubmitButtonProps,
   FormAlertProps,
+  CustomButtonProps,
 };

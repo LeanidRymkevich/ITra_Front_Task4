@@ -1,8 +1,8 @@
-import * as bootstrap from 'bootstrap';
+import { Offcanvas } from 'bootstrap';
 
 const launchOffcanvas = (): void => {
-  Array.from(document.querySelectorAll('.offcanvas')).map(
-    (offcanvasEl) => new bootstrap.Offcanvas(offcanvasEl)
+  Array.from(document.querySelectorAll('.offcanvas')).forEach(
+    (offcanvasEl) => new Offcanvas(offcanvasEl)
   );
 };
 

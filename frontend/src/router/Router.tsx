@@ -13,7 +13,7 @@ import NotFound from '../pages/NotFound/NotFound';
 import { ROOT_PATH } from '../constants/constants';
 
 const useCustomRouter = () => {
-  const [user, isLoading] = ['', false]; // some way to get authentication state
+  const [user, isLoading] = ['user', false]; // some way to get authentication state
 
   const routes = createBrowserRouter(
     createRoutesFromElements(
