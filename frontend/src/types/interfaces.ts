@@ -1,9 +1,4 @@
-import {
-  FormEventHandler,
-  LegacyRef,
-  MouseEventHandler,
-  ReactNode,
-} from 'react';
+import { FormEventHandler, LegacyRef, ReactNode } from 'react';
 
 interface ChildrenOnlyProps {
   children: ReactNode;
@@ -25,8 +20,6 @@ interface TextInputProps {
 
 interface PasswordInputProps
   extends Omit<TextInputProps, 'type' | 'signElement'> {
-  isPasswordVisible: boolean;
-  onEyeClick: MouseEventHandler<HTMLButtonElement>;
   passwordInputRef: LegacyRef<HTMLInputElement>;
 }
 

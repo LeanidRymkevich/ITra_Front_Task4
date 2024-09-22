@@ -1,11 +1,4 @@
-import {
-  FC,
-  FormEvent,
-  FormEventHandler,
-  MouseEventHandler,
-  useRef,
-  useState,
-} from 'react';
+import { FC, FormEvent, FormEventHandler, useRef, useState } from 'react';
 
 import {
   PAGE_NAMES,
@@ -25,15 +18,9 @@ import TextInput from '../../components/FormComponents/TextInput/TextInput';
 
 const SignIn: FC = (): JSX.Element => {
   const [isFormSending, setIsFormSending] = useState<boolean>(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [authErrorMsg, setAuthErrorMsg] = useState<string>('');
 
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
-
-  const onEyeClick: MouseEventHandler<HTMLButtonElement> = () => {
-    passwordInputRef.current!.type = !isPasswordVisible ? 'text' : 'password';
-    setIsPasswordVisible(!isPasswordVisible);
-  };
 
   // TODO Add redirection on successful auth and fit to auth process
   const onSubmit: FormEventHandler<HTMLFormElement> = async (
@@ -79,9 +66,7 @@ const SignIn: FC = (): JSX.Element => {
 
             <PasswordInput
               {...{
-                isPasswordVisible,
                 isFormSending,
-                onEyeClick,
                 passwordInputRef,
                 labelText: FORM_LABEL_TEXTS.PASSWORD,
                 tipText: FORM_INPUTS_TIPS.PASSWORD,
