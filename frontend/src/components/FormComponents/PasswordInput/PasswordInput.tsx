@@ -1,18 +1,22 @@
-import { FC } from 'react';
+import { FC, MouseEventHandler, useState } from 'react';
 
 import { PasswordInputProps } from '../../../types/interfaces';
 
 const PasswordInput: FC<PasswordInputProps> = ({
-  isPasswordVisible,
-  onEyeClick,
   isFormSending,
   passwordInputRef,
   labelText,
   tipText,
   name,
 }) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+
   const htmlFor = `validationCustom${name}`;
   const btnId = `inputGroup${name}`;
+
+  const onEyeClick: MouseEventHandler<HTMLButtonElement> = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
 
   return (
     <div>
@@ -32,7 +36,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
         </button>
         <input
           name={name}
-          type="password"
+          type={isPasswordVisible ? 'text' : 'password'}
           className="form-control"
           id={htmlFor}
           aria-describedby={btnId}
