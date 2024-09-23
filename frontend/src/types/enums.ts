@@ -34,10 +34,24 @@ enum FORM_LABEL_NAME_ATTR {
   LAST_NAME = 'lastName',
 }
 
+enum ADMIN_STATUS {
+  BLOCKED = 'Blocked',
+  ACTIVE = 'Active',
+}
+
+enum ADMIN_TABLE_COLUMN_TITLES {
+  NAME = 'Name',
+  EMAIL = 'Email',
+  LAST_LOGIN = 'Last login',
+  STATUS = 'Status',
+}
+
 export {
   PAGE_NAMES,
   HEADER_LINK_NAMES,
   FORM_INPUTS_TIPS,
   FORM_LABEL_TEXTS,
   FORM_LABEL_NAME_ATTR,
+  ADMIN_STATUS,
+  ADMIN_TABLE_COLUMN_TITLES,
 };

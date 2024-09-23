@@ -5,6 +5,7 @@ import {
   MouseEventHandler,
   ReactNode,
 } from 'react';
+import { ADMIN_STATUS } from './enums';
 
 interface ChildrenOnlyProps {
   children: ReactNode;
@@ -47,6 +48,23 @@ interface CustomButtonProps {
   disabled?: boolean;
 }
 
+interface AdminTableRowData {
+  id: string;
+  checked: boolean;
+  name: string;
+  email: string;
+  lastLogin: string;
+  status: ADMIN_STATUS;
+}
+
+interface AdminTableProps {
+  rowsData: AdminTableRowData[];
+}
+
+interface AdminRowProps {
+  data: AdminTableRowData;
+}
+
 export type {
   ChildrenOnlyProps,
   CustomFormProps,
@@ -55,4 +73,7 @@ export type {
   FormSubmitButtonProps,
   FormAlertProps,
   CustomButtonProps,
+  AdminTableRowData,
+  AdminTableProps,
+  AdminRowProps,
 };

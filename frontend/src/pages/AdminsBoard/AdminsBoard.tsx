@@ -27,7 +27,6 @@ const AdminsBoard: FC = (): JSX.Element => {
           />
           <CustomButton
             {...{
-              text: 'Unblock',
               icon: <i className="bi bi-unlock-fill"></i>,
               onClick: onUnblockBtnClick,
               classes: 'btn-dark',
@@ -36,7 +35,6 @@ const AdminsBoard: FC = (): JSX.Element => {
           />
           <CustomButton
             {...{
-              text: 'Delete',
               icon: <i className="bi bi-trash3-fill"></i>,
               onClick: onDeleteBtnClick,
               classes: 'btn-danger',
@@ -44,7 +42,7 @@ const AdminsBoard: FC = (): JSX.Element => {
             }}
           />
         </div>
-        <table></table>
+        {/* <AdminTable /> */}
       </div>
     </Container>
   );
