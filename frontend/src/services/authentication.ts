@@ -65,51 +65,117 @@ const register = async (data: FormData): Promise<AdminData> => {
   });
 };
 
-const getAdmins = (): Promise<object[]> => {
-  const testVariable = true; // to have the possibility to test UI behavior
+const removePasswordField = ({
+  id,
+  email,
+  name,
+  lastLogin,
+  status,
+}: AdminData) => {
+  return {
+    id,
+    email,
+    name,
+    lastLogin,
+    status,
+  };
+};
+
+const getAdmins = (): Promise<AdminData[]> => {
+  const testVariable = true; // to have the possibility to test UI behavior, for example if user was blocked
 
   return new Promise((resolve, reject) => {
-    if (!testVariable)
+    if (!testVariable) {
       setTimeout(() => reject(new Error(NO_RIGHTS_MSG)), DELAY);
+      return;
+    }
 
-    setTimeout(() => resolve(Object.values(admins)), DELAY);
+    setTimeout(
+      () =>
+        resolve(
+          Object.values(admins).map((admin) => removePasswordField(admin))
+        ),
+      DELAY
+    );
   });
 };
 
 // identifier is currently email, but later could be INDEX in db
-const blockAdmin = (identifier: string): Promise<object[]> => {
+const blockAdmin = (identifier: string): Promise<AdminData[]> => {
   const isPresent = identifier in admins;
+  const testVariable = true; // to have the possibility to test UI behavior, for example if user was blocked
 
   return new Promise((resolve, reject) => {
-    if (!isPresent)
+    if (!isPresent) {
       setTimeout(() => reject(new Error(NO_SUCH_ADMIN_MSG)), DELAY);
+      return;
+    }
+
+    if (!testVariable) {
+      setTimeout(() => reject(new Error(NO_RIGHTS_MSG)), DELAY);
+      return;
+    }
 
     admins[identifier].status = ADMIN_STATUS.BLOCKED;
-    setTimeout(() => resolve(Object.values(admins)), DELAY);
+    setTimeout(
+      () =>
+        resolve(
+          Object.values(admins).map((admin) => removePasswordField(admin))
+        ),
+      DELAY
+    );
   });
 };
 
 const unBlockAdmin = (identifier: string): Promise<object[]> => {
   const isPresent = identifier in admins;
+  const testVariable = true; // to have the possibility to test UI behavior, for example if user was blocked
 
   return new Promise((resolve, reject) => {
-    if (!isPresent)
+    if (!isPresent) {
       setTimeout(() => reject(new Error(NO_SUCH_ADMIN_MSG)), DELAY);
+      return;
+    }
+
+    if (!testVariable) {
+      setTimeout(() => reject(new Error(NO_RIGHTS_MSG)), DELAY);
+      return;
+    }
 
     admins[identifier].status = ADMIN_STATUS.ACTIVE;
-    setTimeout(() => resolve(Object.values(admins)), DELAY);
+    setTimeout(
+      () =>
+        resolve(
+          Object.values(admins).map((admin) => removePasswordField(admin))
+        ),
+      DELAY
+    );
   });
 };
 
 const deleteAdmin = (identifier: string): Promise<object[]> => {
   const isPresent = identifier in admins;
+  const testVariable = true; // to have the possibility to test UI behavior, for example if user was blocked
 
   return new Promise((resolve, reject) => {
-    if (!isPresent)
+    if (!isPresent) {
       setTimeout(() => reject(new Error(NO_SUCH_ADMIN_MSG)), DELAY);
+      return;
+    }
+
+    if (!testVariable) {
+      setTimeout(() => reject(new Error(NO_RIGHTS_MSG)), DELAY);
+      return;
+    }
 
     delete admins[identifier];
-    setTimeout(() => resolve(Object.values(admins)), DELAY);
+    setTimeout(
+      () =>
+        resolve(
+          Object.values(admins).map((admin) => removePasswordField(admin))
+        ),
+      DELAY
+    );
   });
 };
 
