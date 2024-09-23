@@ -1,8 +1,4 @@
-import {
-  Route,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { privateRoutes, publicRoutes } from './routes';
 
@@ -11,23 +7,27 @@ import Layout from '../components/Layout/Layout';
 import NotFound from '../pages/NotFound/NotFound';
 
 import { ROOT_PATH } from '../constants/constants';
-import { useContext } from 'react';
-import { AuthContext } from '../contexts/AuthContext';
+import useAuthState from '../hooks/useAuthState';
+import { FC } from 'react';
 
-const useRouter = () => {
-  const { authToken } = useContext(AuthContext);
+const Router: FC = () => {
+  const { authToken } = useAuthState();
 
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route path={ROOT_PATH} element={<Layout />} errorElement={<Fallback />}>
-        {authToken ? privateRoutes : publicRoutes}
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path={ROOT_PATH}
+          element={<Layout />}
+          errorElement={<Fallback />}
+        >
+          {authToken ? privateRoutes : publicRoutes}
 
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    )
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-
-  return router;
 };
 
-export default useRouter;
+export default Router;
