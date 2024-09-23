@@ -14,8 +14,9 @@ import FormSubmitButton from '../../components/FormComponents/FormSubmitButton/F
 import PasswordInput from '../../components/FormComponents/PasswordInput/PasswordInput';
 import TextInput from '../../components/FormComponents/TextInput/TextInput';
 
-import { authenticate } from '../../services/authentication';
+import { register } from '../../services/authentication';
 import { checkInputsMatch } from '../../utils/forms_utils';
+import useAuthState from '../../hooks/useAuthState';
 
 const SignUp: FC = (): JSX.Element => {
   const [isFormSending, setIsFormSending] = useState<boolean>(false);
@@ -23,6 +24,8 @@ const SignUp: FC = (): JSX.Element => {
 
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
   const repeatPasswordInputRef = useRef<HTMLInputElement | null>(null);
+
+  const { saveToken } = useAuthState();
 
   const onPasswordFocus = (): void => {
     checkInputsMatch(
@@ -45,8 +48,8 @@ const SignUp: FC = (): JSX.Element => {
 
     try {
       setIsFormSending(true);
-      const response: object = await authenticate(new FormData(form));
-      console.log(response);
+      const response = await register(new FormData(form));
+      saveToken(response);
       setIsFormSending(false);
     } catch (err) {
       if (!(err instanceof Error)) throw err;
