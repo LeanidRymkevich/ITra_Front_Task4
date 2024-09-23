@@ -1,19 +1,17 @@
 import { FC } from 'react';
 import { RouterProvider } from 'react-router-dom';
-import useCustomRouter from './router/Router';
-import Spinner from './components/Spinner/Spinner';
+
+import useRouter from './router/Router';
+
+import { AuthContextElement } from './contexts/AuthContext';
 
 const App: FC = () => {
-  const { routes, isLoading } = useCustomRouter();
-
-  if (isLoading) {
-    return <Spinner />;
-  }
+  const router = useRouter();
 
   return (
-    <>
-      <RouterProvider router={routes} />
-    </>
+    <AuthContextElement>
+      <RouterProvider router={router} />
+    </AuthContextElement>
   );
 };
 

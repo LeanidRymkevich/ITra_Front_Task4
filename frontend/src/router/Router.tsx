@@ -11,21 +11,23 @@ import Layout from '../components/Layout/Layout';
 import NotFound from '../pages/NotFound/NotFound';
 
 import { ROOT_PATH } from '../constants/constants';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
-const useCustomRouter = () => {
-  const [user, isLoading] = ['user', false]; // some way to get authentication state
+const useRouter = () => {
+  const { authToken } = useContext(AuthContext);
 
-  const routes = createBrowserRouter(
+  const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path={ROOT_PATH} element={<Layout />} errorElement={<Fallback />}>
-        {user ? privateRoutes : publicRoutes}
+        {authToken ? privateRoutes : publicRoutes}
 
         <Route path="*" element={<NotFound />} />
       </Route>
     )
   );
 
-  return { routes, isLoading };
+  return router;
 };
 
-export default useCustomRouter;
+export default useRouter;
