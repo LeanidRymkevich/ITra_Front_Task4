@@ -9,7 +9,7 @@ type PathsMap = {
 type AdminData = Omit<AdminTableRowData, 'checked'>;
 
 type LocalStorageItems = {
-  [key in LOCAL_STORAGE_ITEM_NAME]: string | null;
+  [key in LOCAL_STORAGE_ITEM_NAME]: AdminData | null;
 };
 
 type AppContextType = {

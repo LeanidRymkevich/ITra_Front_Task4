@@ -2,7 +2,7 @@ import { LOCAL_STORAGE_ITEM_NAME } from '../types/enums';
 import { LocalStorageItems } from '../types/types';
 
 const DEFAULT_ITEMS: LocalStorageItems = {
-  [LOCAL_STORAGE_ITEM_NAME.AUTH_TOKEN]: '12345', // TODO null must be by default, but during development may be changed for testing purposes
+  [LOCAL_STORAGE_ITEM_NAME.AUTH_TOKEN]: null,
 };
 
 const loadState = (): LocalStorageItems => {

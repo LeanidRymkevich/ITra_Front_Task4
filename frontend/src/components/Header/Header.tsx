@@ -1,15 +1,25 @@
-import { FC } from 'react';
-
-import { APP_NAME, PATHS } from '../../constants/constants';
-import { HEADER_LINK_NAMES, PAGE_NAMES } from '../../types/enums';
-import Container from '../Container/Container';
+import { FC, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
-// TODO add links hiding relative to auth state, add name displaying, and handler to SignOut Link
+import { HEADER_LINK_NAMES, PAGE_NAMES } from '../../types/enums';
+
+import Container from '../Container/Container';
+
+import { AuthContext } from '../../contexts/AuthContext';
+
+import { APP_NAME, PATHS } from '../../constants/constants';
+
+// TODO check sign out handler according to production auth process, for now here is testing variant
 
 const MENU_TITLE = 'Menu';
 
 const Header: FC = () => {
+  const { setAuthToken, authToken } = useContext(AuthContext);
+
+  const signOutOnClick = () => {
+    setAuthToken(null);
+  };
+
   return (
     <header className="bg-dark border-bottom sticky-top" data-bs-theme="dark">
       <Container>
@@ -29,7 +39,7 @@ const Header: FC = () => {
             </button>
 
             <div
-              className="offcanvas offcanvas-end w-50"
+              className="offcanvas offcanvas-end w-75"
               tabIndex={-1}
               id="offcanvasNavbar"
               aria-labelledby="offcanvasNavbarLabel"
@@ -49,7 +59,22 @@ const Header: FC = () => {
 
               <div className="offcanvas-body px-3 px-sm-0 py-0">
                 <ul className="navbar-nav nav-underline justify-content-end flex-grow-1">
-                  <li className="nav-item">
+                  <li
+                    className="nav-item d-flex align-items-center"
+                    style={{ display: authToken ? 'block' : 'none' }}
+                  >
+                    <span style={{ display: authToken ? 'block' : 'none' }}>
+                      <span>Hello, </span>
+                      <span className="text-primary-emphasis text-decoration-underline">
+                        {authToken && authToken.name}
+                      </span>
+                      <span>!</span>
+                    </span>
+                  </li>
+                  <li
+                    className="nav-item"
+                    style={{ display: !authToken ? 'block' : 'none' }}
+                  >
                     <NavLink
                       className="nav-link w-fit-content"
                       aria-current="page"
@@ -59,7 +84,10 @@ const Header: FC = () => {
                     </NavLink>
                   </li>
 
-                  <li className="nav-item">
+                  <li
+                    className="nav-item"
+                    style={{ display: !authToken ? 'block' : 'none' }}
+                  >
                     <NavLink
                       className="nav-link w-fit-content"
                       to={PATHS[PAGE_NAMES.SIGN_UP]}
@@ -68,10 +96,14 @@ const Header: FC = () => {
                     </NavLink>
                   </li>
 
-                  <li className="nav-item w-fit-content">
+                  <li
+                    className="nav-item w-fit-content"
+                    style={{ display: authToken ? 'block' : 'none' }}
+                  >
                     <NavLink
                       className="nav-link"
                       to={PATHS[PAGE_NAMES.SIGN_IN]}
+                      onClick={signOutOnClick}
                     >
                       {HEADER_LINK_NAMES.SIGN_OUT}
                     </NavLink>
