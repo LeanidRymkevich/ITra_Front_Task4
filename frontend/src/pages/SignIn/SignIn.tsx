@@ -6,15 +6,17 @@ import {
   FORM_LABEL_TEXTS,
   FORM_LABEL_NAME_ATTR,
 } from '../../types/enums';
+import { AdminData } from '../../types/types';
 
 import Container from '../../components/Container/Container';
 import CustomForm from '../../components/FormComponents/CustomForm/CustomForm';
 import PasswordInput from '../../components/FormComponents/PasswordInput/PasswordInput';
 import FormSubmitButton from '../../components/FormComponents/FormSubmitButton/FormSubmitButton';
 import FormAlert from '../../components/FormComponents/FormAlert/FormAlert';
+import TextInput from '../../components/FormComponents/TextInput/TextInput';
 
 import { authenticate } from '../../services/authentication';
-import TextInput from '../../components/FormComponents/TextInput/TextInput';
+import useAuthState from '../../hooks/useAuthState';
 
 const SignIn: FC = (): JSX.Element => {
   const [isFormSending, setIsFormSending] = useState<boolean>(false);
@@ -22,7 +24,9 @@ const SignIn: FC = (): JSX.Element => {
 
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
 
-  // TODO Add redirection on successful auth and fit to auth process
+  const { saveToken } = useAuthState();
+
+  // TODO fit handler to end auth process, for now here is testing variant
   const onSubmit: FormEventHandler<HTMLFormElement> = async (
     event: FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -36,8 +40,8 @@ const SignIn: FC = (): JSX.Element => {
 
     try {
       setIsFormSending(true);
-      const response: object = await authenticate(new FormData(form));
-      console.log(response);
+      const response: AdminData = await authenticate(new FormData(form));
+      saveToken(response);
       setIsFormSending(false);
     } catch (err) {
       if (!(err instanceof Error)) throw err;

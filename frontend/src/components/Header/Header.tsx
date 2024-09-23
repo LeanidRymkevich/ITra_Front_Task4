@@ -1,11 +1,11 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { HEADER_LINK_NAMES, PAGE_NAMES } from '../../types/enums';
 
 import Container from '../Container/Container';
 
-import { AuthContext } from '../../contexts/AuthContext';
+import useAuthState from '../../hooks/useAuthState';
 
 import { APP_NAME, PATHS } from '../../constants/constants';
 
@@ -14,10 +14,10 @@ import { APP_NAME, PATHS } from '../../constants/constants';
 const MENU_TITLE = 'Menu';
 
 const Header: FC = () => {
-  const { setAuthToken, authToken } = useContext(AuthContext);
+  const { saveToken, authToken } = useAuthState();
 
   const signOutOnClick = () => {
-    setAuthToken(null);
+    saveToken(null);
   };
 
   return (
