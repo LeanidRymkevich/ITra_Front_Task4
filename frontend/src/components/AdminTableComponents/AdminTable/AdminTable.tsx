@@ -1,7 +1,10 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
+
 import { ADMIN_TABLE_COLUMN_TITLES } from '../../../types/enums';
 import { AdminTableProps } from '../../../types/interfaces';
+
 import AdminRow from '../AdminRow/AdminRow';
+
 import { sortRowsByName } from '../../../utils/table_utils';
 
 const AdminTable: FC<AdminTableProps> = ({
@@ -36,14 +39,13 @@ const AdminTable: FC<AdminTableProps> = ({
             <input
               className="form-check-input"
               type="checkbox"
-              value=""
-              id="flexCheckIndeterminate"
               ref={checkboxRef}
               onChange={onChange}
               data-bs-theme="light"
               disabled={isPending}
             />
           </th>
+
           <th>
             <div className="d-flex align-items-center justify-content-between">
               <span>{ADMIN_TABLE_COLUMN_TITLES.NAME}</span>
@@ -59,11 +61,13 @@ const AdminTable: FC<AdminTableProps> = ({
               </span>
             </div>
           </th>
+
           <th>{ADMIN_TABLE_COLUMN_TITLES.EMAIL}</th>
           <th>{ADMIN_TABLE_COLUMN_TITLES.LAST_LOGIN}</th>
           <th>{ADMIN_TABLE_COLUMN_TITLES.STATUS}</th>
         </tr>
       </thead>
+
       <tbody className="table-secondary">
         {sortRowsByName(rowsData, isAscending).map((data) => (
           <AdminRow

@@ -1,46 +1,89 @@
 import { FC, useEffect, useState } from 'react';
-import Container from '../../components/Container/Container';
+
 import { PAGE_NAMES } from '../../types/enums';
+import { AdminsBoardState } from '../../types/types';
+
+import Container from '../../components/Container/Container';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import FormAlert from '../../components/FormComponents/FormAlert/FormAlert';
 import AdminTable from '../../components/AdminTableComponents/AdminTable/AdminTable';
-import { AdminsBoardState } from '../../types/types';
-import { getAdmins } from '../../services/authentication';
-import { AdminData } from '../../types/interfaces';
+
+import {
+  blockAdmins,
+  deleteAdmins,
+  getAdmins,
+  unBlockAdmins,
+} from '../../services/authentication';
+import { manageAdminsActions } from '../../utils/table_utils';
+import useAuthState from '../../hooks/useAuthState';
 
 const AdminsBoard: FC = (): JSX.Element => {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [adminsMap, setAdminsMap] = useState<AdminsBoardState>({});
 
-  const onBlockBtnClick = () => console.log('Block');
-  const onUnblockBtnClick = () => console.log('Unblock');
-  const onDeleteBtnClick = () => console.log('Delete');
+  const { saveToken } = useAuthState();
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        setIsPending(true);
-        const admins = await getAdmins();
-
-        const adminsMap: AdminsBoardState = admins.reduce(
-          (obj: AdminsBoardState, admin: AdminData) => {
-            obj[admin.id] = { ...admin, checked: false };
-            return obj;
-          },
-          {}
-        );
-
-        setAdminsMap(adminsMap);
-        setIsPending(false);
-      } catch (error) {
-        if (!(error instanceof Error)) throw error;
-        setError(error);
-      }
+      await manageAdminsActions({
+        setIsPending,
+        setError,
+        setAdminsMap,
+        saveToken,
+        action: getAdmins,
+      });
     };
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const onBlockBtnClick = async () => {
+    const checkedAdmins = Object.values(adminsMap)
+      .filter((admin) => admin.checked === true)
+      .map((admin) => admin.id);
+    await manageAdminsActions(
+      {
+        setIsPending,
+        setError,
+        setAdminsMap,
+        saveToken,
+        action: blockAdmins,
+      },
+      checkedAdmins
+    );
+  };
+  const onUnblockBtnClick = async () => {
+    const checkedAdmins = Object.values(adminsMap)
+      .filter((admin) => admin.checked === true)
+      .map((admin) => admin.id);
+    await manageAdminsActions(
+      {
+        setIsPending,
+        setError,
+        setAdminsMap,
+        saveToken,
+        action: unBlockAdmins,
+      },
+      checkedAdmins
+    );
+  };
+  const onDeleteBtnClick = async () => {
+    const checkedAdmins = Object.values(adminsMap)
+      .filter((admin) => admin.checked === true)
+      .map((admin) => admin.id);
+    await manageAdminsActions(
+      {
+        setIsPending,
+        setError,
+        setAdminsMap,
+        saveToken,
+        action: deleteAdmins,
+      },
+      checkedAdmins
+    );
+  };
 
   const rowCheckboxOnChange = (id: string, checkboxState: boolean): void => {
     const newMap = Object.assign({}, adminsMap);
@@ -58,6 +101,7 @@ const AdminsBoard: FC = (): JSX.Element => {
     <Container>
       <div className="d-flex flex-column gap-2 pt-2">
         <h2 className="display-6 fw-bold">{PAGE_NAMES.ADMINS_BOARD}</h2>
+
         <div className="d-flex gap-2 flex-wrap">
           <CustomButton
             {...{
@@ -85,7 +129,9 @@ const AdminsBoard: FC = (): JSX.Element => {
             }}
           />
         </div>
+
         <FormAlert msg={error ? error.message : ''} />
+
         <div className="table-responsive">
           <AdminTable
             rowsData={Object.values(adminsMap)}

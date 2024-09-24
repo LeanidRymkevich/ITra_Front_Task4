@@ -26,7 +26,6 @@ const AdminRow: FC<AdminRowProps> = ({
         <input
           className="form-check-input"
           type="checkbox"
-          value=""
           {...{
             [TABLE_ROW_CHECKBOX_DATA_ATTR.ATTRIBUTE]: id,
             onChange,

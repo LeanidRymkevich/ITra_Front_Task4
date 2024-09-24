@@ -22,4 +22,20 @@ type AppContextType = {
 
 type AdminsBoardState = Record<string, AdminsBoardData>;
 
-export type { PathsMap, LocalStorageItems, AppContextType, AdminsBoardState };
+type AdminAction = (ids: string[]) => Promise<AdminData[]>;
+
+type ManageAdminActionArgs = {
+  setIsPending: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<Error | null>>;
+  setAdminsMap: Dispatch<SetStateAction<AdminsBoardState>>;
+  saveToken: (token: AdminData | null) => void;
+  action: AdminAction;
+};
+
+export type {
+  PathsMap,
+  LocalStorageItems,
+  AppContextType,
+  AdminsBoardState,
+  ManageAdminActionArgs,
+};

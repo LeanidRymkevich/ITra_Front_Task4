@@ -40,7 +40,7 @@ const TEST_ADMIN3: AdminData & { password: string } = {
 
 const NO_ADMIN_MSG =
   'Long and boring message about the fact that user couldn`t be found or entered password is incorrect. ';
-const NO_RIGHTS_MSG = 'Current admin was blocked or deleted';
+export const NO_RIGHTS_MSG = 'Current admin was blocked or deleted';
 const NO_SUCH_ADMIN_MSG = 'No such admin';
 const ADMIN_ALREADY_EXISTS_MSG = 'Admin with such email already exists!';
 
@@ -124,89 +124,95 @@ const getAdmins = (): Promise<AdminData[]> => {
 };
 
 // identifier is currently email, but later could be INDEX in db
-const blockAdmin = (identifier: string): Promise<AdminData[]> => {
-  const isPresent = identifier in admins;
+const blockAdmin = (id: string): void => {
+  const admin = Object.values(admins).filter((admin) => admin.id === id)[0];
   const testVariable = true; // to have the possibility to test UI behavior, for example if user was blocked
 
+  if (!admin) throw new Error(NO_SUCH_ADMIN_MSG);
+  if (!testVariable) throw new Error(NO_RIGHTS_MSG);
+
+  admins[admin.email].status = ADMIN_STATUS.BLOCKED;
+};
+
+const unBlockAdmin = (id: string): void => {
+  const admin = Object.values(admins).filter((admin) => admin.id === id)[0];
+  const testVariable = true; // to have the possibility to test UI behavior, for example if user was blocked
+
+  if (!admin) throw new Error(NO_SUCH_ADMIN_MSG);
+  if (!testVariable) throw new Error(NO_RIGHTS_MSG);
+
+  admins[admin.email].status = ADMIN_STATUS.ACTIVE;
+};
+
+const deleteAdmin = (id: string): void => {
+  const admin = Object.values(admins).filter((admin) => admin.id === id)[0];
+  const testVariable = true; // to have the possibility to test UI behavior, for example if user was blocked
+
+  if (!admin) throw new Error(NO_SUCH_ADMIN_MSG);
+  if (!testVariable) throw new Error(NO_RIGHTS_MSG);
+
+  delete admins[admin.email];
+};
+
+const blockAdmins = (ids: string[]): Promise<AdminData[]> => {
   return new Promise((resolve, reject) => {
-    if (!isPresent) {
-      setTimeout(() => reject(new Error(NO_SUCH_ADMIN_MSG)), DELAY);
-      return;
-    }
+    try {
+      ids.forEach((id) => blockAdmin(id));
 
-    if (!testVariable) {
-      setTimeout(() => reject(new Error(NO_RIGHTS_MSG)), DELAY);
-      return;
+      setTimeout(
+        () =>
+          resolve(
+            Object.values(admins).map((admin) => removePasswordField(admin))
+          ),
+        DELAY
+      );
+    } catch (error) {
+      setTimeout(() => reject(error), DELAY);
     }
-
-    admins[identifier].status = ADMIN_STATUS.BLOCKED;
-    setTimeout(
-      () =>
-        resolve(
-          Object.values(admins).map((admin) => removePasswordField(admin))
-        ),
-      DELAY
-    );
   });
 };
 
-const unBlockAdmin = (identifier: string): Promise<object[]> => {
-  const isPresent = identifier in admins;
-  const testVariable = true; // to have the possibility to test UI behavior, for example if user was blocked
-
+const unBlockAdmins = (ids: string[]): Promise<AdminData[]> => {
   return new Promise((resolve, reject) => {
-    if (!isPresent) {
-      setTimeout(() => reject(new Error(NO_SUCH_ADMIN_MSG)), DELAY);
-      return;
-    }
+    try {
+      ids.forEach((id) => unBlockAdmin(id));
 
-    if (!testVariable) {
-      setTimeout(() => reject(new Error(NO_RIGHTS_MSG)), DELAY);
-      return;
+      setTimeout(
+        () =>
+          resolve(
+            Object.values(admins).map((admin) => removePasswordField(admin))
+          ),
+        DELAY
+      );
+    } catch (error) {
+      setTimeout(() => reject(error), DELAY);
     }
-
-    admins[identifier].status = ADMIN_STATUS.ACTIVE;
-    setTimeout(
-      () =>
-        resolve(
-          Object.values(admins).map((admin) => removePasswordField(admin))
-        ),
-      DELAY
-    );
   });
 };
 
-const deleteAdmin = (identifier: string): Promise<object[]> => {
-  const isPresent = identifier in admins;
-  const testVariable = true; // to have the possibility to test UI behavior, for example if user was blocked
-
+const deleteAdmins = (ids: string[]): Promise<AdminData[]> => {
   return new Promise((resolve, reject) => {
-    if (!isPresent) {
-      setTimeout(() => reject(new Error(NO_SUCH_ADMIN_MSG)), DELAY);
-      return;
-    }
+    try {
+      ids.forEach((id) => deleteAdmin(id));
 
-    if (!testVariable) {
-      setTimeout(() => reject(new Error(NO_RIGHTS_MSG)), DELAY);
-      return;
+      setTimeout(
+        () =>
+          resolve(
+            Object.values(admins).map((admin) => removePasswordField(admin))
+          ),
+        DELAY
+      );
+    } catch (error) {
+      setTimeout(() => reject(error), DELAY);
     }
-
-    delete admins[identifier];
-    setTimeout(
-      () =>
-        resolve(
-          Object.values(admins).map((admin) => removePasswordField(admin))
-        ),
-      DELAY
-    );
   });
 };
 
 export {
   authenticate,
   getAdmins,
-  blockAdmin,
-  unBlockAdmin,
-  deleteAdmin,
+  blockAdmins,
+  unBlockAdmins,
+  deleteAdmins,
   register,
 };
