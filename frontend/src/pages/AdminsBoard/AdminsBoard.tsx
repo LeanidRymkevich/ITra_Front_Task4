@@ -43,6 +43,9 @@ const AdminsBoard: FC = (): JSX.Element => {
     const checkedAdmins = Object.values(adminsMap)
       .filter((admin) => admin.checked === true)
       .map((admin) => admin.id);
+
+    if (!checkedAdmins.length) return;
+
     await manageAdminsActions(
       {
         setIsPending,
@@ -58,6 +61,9 @@ const AdminsBoard: FC = (): JSX.Element => {
     const checkedAdmins = Object.values(adminsMap)
       .filter((admin) => admin.checked === true)
       .map((admin) => admin.id);
+
+    if (!checkedAdmins.length) return;
+
     await manageAdminsActions(
       {
         setIsPending,
@@ -73,6 +79,9 @@ const AdminsBoard: FC = (): JSX.Element => {
     const checkedAdmins = Object.values(adminsMap)
       .filter((admin) => admin.checked === true)
       .map((admin) => admin.id);
+
+    if (!checkedAdmins.length) return;
+
     await manageAdminsActions(
       {
         setIsPending,
