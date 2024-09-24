@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Container from '../../components/Container/Container';
 import { PAGE_NAMES } from '../../types/enums';
 import CustomButton from '../../components/CustomButton/CustomButton';
@@ -9,42 +9,49 @@ import { getAdmins } from '../../services/authentication';
 import { AdminData } from '../../types/interfaces';
 
 const AdminsBoard: FC = (): JSX.Element => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPending, setIsPending] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<Error | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [adminsMap, setAdminsMap] = useState<AdminsBoardState>({});
 
   const onBlockBtnClick = () => console.log('Block');
   const onUnblockBtnClick = () => console.log('Unblock');
   const onDeleteBtnClick = () => console.log('Delete');
 
-  const selectedAdmins = useRef(new Set<string>());
-
   useEffect(() => {
     const fetchData = async () => {
-      setIsPending(true);
-      const admins = await getAdmins();
+      try {
+        setIsPending(true);
+        const admins = await getAdmins();
 
-      const adminsMap: AdminsBoardState = admins.reduce(
-        (obj: AdminsBoardState, admin: AdminData) => {
-          obj[admin.id] = { ...admin, checked: false };
-          return obj;
-        },
-        {}
-      );
+        const adminsMap: AdminsBoardState = admins.reduce(
+          (obj: AdminsBoardState, admin: AdminData) => {
+            obj[admin.id] = { ...admin, checked: false };
+            return obj;
+          },
+          {}
+        );
 
-      setAdminsMap(adminsMap);
-      setIsPending(false);
+        setAdminsMap(adminsMap);
+        setIsPending(false);
+      } catch (error) {
+        if (!(error instanceof Error)) throw error;
+        setError(error);
+      }
     };
 
     fetchData();
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const rowCheckboxOnChange = (id: string, checkboxState: boolean): void => {
-    selectedAdmins.current.add(id);
+    const newMap = Object.assign({}, adminsMap);
+    newMap[id].checked = checkboxState;
+    setAdminsMap(newMap);
+  };
+
+  const headerCheckboxOnChange = (checkboxState: boolean): void => {
+    const newMap = Object.assign({}, adminsMap);
+    Object.values(newMap).forEach((data) => (data.checked = checkboxState));
+    setAdminsMap(newMap);
   };
 
   return (
@@ -82,8 +89,7 @@ const AdminsBoard: FC = (): JSX.Element => {
         <div className="table-responsive">
           <AdminTable
             rowsData={Object.values(adminsMap)}
-            onChange={() => console.log('Checkbox changed')}
-            isPending={isPending}
+            {...{ rowCheckboxOnChange, isPending, headerCheckboxOnChange }}
           />
         </div>
       </div>

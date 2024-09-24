@@ -1,5 +1,4 @@
 import {
-  ChangeEventHandler,
   FocusEventHandler,
   FormEventHandler,
   LegacyRef,
@@ -64,13 +63,14 @@ interface AdminsBoardData extends AdminData {
 
 interface AdminRowProps extends AdminsBoardData {
   isPending: boolean;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  rowCheckboxOnChange: (id: string, checkboxState: boolean) => void;
 }
 
 interface AdminTableProps {
   isPending: boolean;
   rowsData: AdminsBoardData[];
-  onChange: ChangeEventHandler<HTMLInputElement>; // may be changed later
+  rowCheckboxOnChange: (id: string, checkboxState: boolean) => void;
+  headerCheckboxOnChange: (checkboxState: boolean) => void;
 }
 
 export type {

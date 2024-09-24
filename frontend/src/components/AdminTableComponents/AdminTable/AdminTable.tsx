@@ -1,10 +1,15 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { ADMIN_TABLE_COLUMN_TITLES } from '../../../types/enums';
 import { AdminTableProps } from '../../../types/interfaces';
 import AdminRow from '../AdminRow/AdminRow';
 import { sortRowsByName } from '../../../utils/table_utils';
 
-const AdminTable: FC<AdminTableProps> = ({ rowsData, onChange, isPending }) => {
+const AdminTable: FC<AdminTableProps> = ({
+  rowsData,
+  rowCheckboxOnChange,
+  isPending,
+  headerCheckboxOnChange,
+}) => {
   const [isAscending, setIsAscending] = useState(true);
 
   const checkboxRef = useRef<HTMLInputElement | null>(null);
@@ -17,6 +22,10 @@ const AdminTable: FC<AdminTableProps> = ({ rowsData, onChange, isPending }) => {
 
   const sortBtnOnClick = (): void => {
     setIsAscending(!isAscending);
+  };
+
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    headerCheckboxOnChange(event.target.checked);
   };
 
   return (
@@ -57,7 +66,10 @@ const AdminTable: FC<AdminTableProps> = ({ rowsData, onChange, isPending }) => {
       </thead>
       <tbody className="table-secondary">
         {sortRowsByName(rowsData, isAscending).map((data) => (
-          <AdminRow {...{ ...data, onChange, isPending }} key={data.id} />
+          <AdminRow
+            {...{ ...data, rowCheckboxOnChange, isPending }}
+            key={data.id}
+          />
         ))}
       </tbody>
     </table>
