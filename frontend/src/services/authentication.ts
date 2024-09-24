@@ -64,6 +64,11 @@ const authenticate = async (data: FormData): Promise<AdminData> => {
       return;
     }
 
+    if (admin.status === ADMIN_STATUS.BLOCKED) {
+      setTimeout(() => reject(new Error(NO_RIGHTS_MSG)), DELAY);
+      return;
+    }
+
     admin.lastLogin = Date.now().toString();
     const { id, email, name, lastLogin, status } = admin;
     setTimeout(() => resolve({ id, email, name, lastLogin, status }), DELAY);
