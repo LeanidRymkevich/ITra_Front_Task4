@@ -21,7 +21,7 @@ const AdminTable: FC<AdminTableProps> = ({
     if (checkboxRef.current) {
       checkboxRef.current.indeterminate = true;
     }
-  }, []);
+  }, [isPending]);
 
   const sortBtnOnClick = (): void => {
     setIsAscending(!isAscending);
