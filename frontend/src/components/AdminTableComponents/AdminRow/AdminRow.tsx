@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useRef } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 import { AdminRowProps } from '../../../types/interfaces';
 import { TABLE_ROW_CHECKBOX_DATA_ATTR } from '../../../types/enums';
@@ -13,14 +13,6 @@ const AdminRow: FC<AdminRowProps> = ({
   rowCheckboxOnChange,
   isPending,
 }) => {
-  const checkboxRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    if (checkboxRef.current) {
-      checkboxRef.current.checked = checked;
-    }
-  }, [checked]);
-
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const element: HTMLInputElement = event.target;
     const id = element.dataset[TABLE_ROW_CHECKBOX_DATA_ATTR.DOM_PROP];
@@ -35,9 +27,12 @@ const AdminRow: FC<AdminRowProps> = ({
           className="form-check-input"
           type="checkbox"
           value=""
-          onChange={onChange}
+          {...{
+            [TABLE_ROW_CHECKBOX_DATA_ATTR.ATTRIBUTE]: id,
+            onChange,
+            checked,
+          }}
           disabled={isPending}
-          {...{ [TABLE_ROW_CHECKBOX_DATA_ATTR.ATTRIBUTE]: id }}
         />
       </td>
       <td>{name}</td>
