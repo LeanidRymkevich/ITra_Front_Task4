@@ -21,7 +21,10 @@ const Header: FC = () => {
   };
 
   return (
-    <header className="bg-dark border-bottom sticky-top" data-bs-theme="dark">
+    <header
+      className="bg-dark border-bottom sticky-top shadow"
+      data-bs-theme="dark"
+    >
       <Container>
         <nav className="navbar navbar-expand-sm">
           <div className="container-fluid p-0">

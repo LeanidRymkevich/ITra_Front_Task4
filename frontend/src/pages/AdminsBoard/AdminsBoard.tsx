@@ -2,10 +2,13 @@ import { FC, useState } from 'react';
 import Container from '../../components/Container/Container';
 import { PAGE_NAMES } from '../../types/enums';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import FormAlert from '../../components/FormComponents/FormAlert/FormAlert';
 
 const AdminsBoard: FC = (): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isOperationPending, setIsOperationPending] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [error, setError] = useState<Error | null>(new Error('Some message'));
 
   const onBlockBtnClick = () => console.log('Block');
   const onUnblockBtnClick = () => console.log('Unblock');
@@ -22,7 +25,7 @@ const AdminsBoard: FC = (): JSX.Element => {
               icon: <i className="bi bi-lock-fill"></i>,
               onClick: onBlockBtnClick,
               classes: 'btn-dark',
-              disabled: isOperationPending,
+              disabled: isPending,
             }}
           />
           <CustomButton
@@ -30,7 +33,7 @@ const AdminsBoard: FC = (): JSX.Element => {
               icon: <i className="bi bi-unlock-fill"></i>,
               onClick: onUnblockBtnClick,
               classes: 'btn-dark',
-              disabled: isOperationPending,
+              disabled: isPending,
             }}
           />
           <CustomButton
@@ -38,10 +41,11 @@ const AdminsBoard: FC = (): JSX.Element => {
               icon: <i className="bi bi-trash3-fill"></i>,
               onClick: onDeleteBtnClick,
               classes: 'btn-danger',
-              disabled: isOperationPending,
+              disabled: isPending,
             }}
           />
         </div>
+        <FormAlert msg={error ? error.message : ''} />
         {/* <AdminTable /> */}
       </div>
     </Container>
