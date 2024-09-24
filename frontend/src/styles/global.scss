@@ -1,3 +1,4 @@
 @import 'custom.scss';
 @import "bootstrap/scss/bootstrap";
-@import 'bootstrap-icons/font/bootstrap-icons.css';
+$bootstrap-icons-font-dir: "../../node_modules/bootstrap-icons/font/fonts"; // fixes the bug with bootstrap icons
+@import "bootstrap-icons/font/bootstrap-icons.scss";
