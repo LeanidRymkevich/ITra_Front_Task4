@@ -15,7 +15,7 @@ const TEST_ADMIN1: AdminData & { password: string } = {
   id: '123452',
   email: 'johns3mith@gmail.com',
   password: '12345',
-  name: 'John Smith',
+  name: 'John Smith1',
   lastLogin: Date.now().toString(),
   status: ADMIN_STATUS.ACTIVE,
 };
@@ -24,7 +24,7 @@ const TEST_ADMIN2: AdminData & { password: string } = {
   id: '1234521',
   email: 'johns2mith@gmail.com',
   password: '12345',
-  name: 'Jasdsdsdohn Smiasdadadah',
+  name: 'John Smith2',
   lastLogin: Date.now().toString(),
   status: ADMIN_STATUS.ACTIVE,
 };
@@ -33,7 +33,7 @@ const TEST_ADMIN3: AdminData & { password: string } = {
   id: '123123124',
   email: 'johns1mith@gmail.com',
   password: '12345',
-  name: 'John Smith',
+  name: 'John Smith3',
   lastLogin: new Date(Date.now()).toISOString(),
   status: ADMIN_STATUS.ACTIVE,
 };

@@ -33,7 +33,7 @@ const AdminsBoard: FC = (): JSX.Element => {
         },
         {}
       );
-      console.log(adminsMap);
+
       setAdminsMap(adminsMap);
     };
 
