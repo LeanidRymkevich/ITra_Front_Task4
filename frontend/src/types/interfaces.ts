@@ -39,6 +39,7 @@ interface FormSubmitButtonProps {
 
 interface FormAlertProps {
   msg: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
 interface CustomButtonProps {

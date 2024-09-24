@@ -130,7 +130,9 @@ const AdminsBoard: FC = (): JSX.Element => {
           />
         </div>
 
-        <FormAlert msg={error ? error.message : ''} />
+        {error && (
+          <FormAlert msg={error.message} onClick={() => setError(null)} />
+        )}
 
         <div className="table-responsive">
           <AdminTable

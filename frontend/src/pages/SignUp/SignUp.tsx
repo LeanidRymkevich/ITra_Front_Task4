@@ -20,7 +20,7 @@ import useAuthState from '../../hooks/useAuthState';
 
 const SignUp: FC = (): JSX.Element => {
   const [isFormSending, setIsFormSending] = useState<boolean>(false);
-  const [authErrorMsg, setAuthErrorMsg] = useState<string>('');
+  const [error, setError] = useState<Error | null>(null);
 
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
   const repeatPasswordInputRef = useRef<HTMLInputElement | null>(null);
@@ -39,7 +39,7 @@ const SignUp: FC = (): JSX.Element => {
     event: FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-    setAuthErrorMsg('');
+    setError(null);
 
     const form = event.target as HTMLFormElement;
     form.classList.add('was-validated');
@@ -53,7 +53,7 @@ const SignUp: FC = (): JSX.Element => {
       setIsFormSending(false);
     } catch (err) {
       if (!(err instanceof Error)) throw err;
-      setAuthErrorMsg(err.message);
+      setError(err);
       setIsFormSending(false);
     }
   };
@@ -120,7 +120,9 @@ const SignUp: FC = (): JSX.Element => {
               }}
             ></PasswordInput>
 
-            <FormAlert msg={authErrorMsg} />
+            {error && (
+              <FormAlert msg={error.message} onClick={() => setError(null)} />
+            )}
 
             <FormSubmitButton
               {...{ isFormSending, text: PAGE_NAMES.SIGN_UP }}
