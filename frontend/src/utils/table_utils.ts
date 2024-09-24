@@ -1,9 +1,9 @@
-import { AdminRowProps } from '../types/interfaces';
+import { AdminsBoardData } from '../types/interfaces';
 
 const sortRowsByName = (
-  rowsData: Omit<AdminRowProps, 'onChange'>[],
+  rowsData: AdminsBoardData[],
   isAscending: boolean = true
-): Omit<AdminRowProps, 'onChange'>[] => {
+): AdminsBoardData[] => {
   const res = rowsData.sort((a, b) => a.name.localeCompare(b.name));
   if (isAscending) return res;
   return res.reverse();

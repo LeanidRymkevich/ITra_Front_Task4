@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 
 import { LOCAL_STORAGE_ITEM_NAME, PAGE_NAMES } from './enums';
-import { AdminData } from './interfaces';
+import { AdminData, AdminsBoardData } from './interfaces';
 
 type PathsMap = {
   [value in Exclude<PAGE_NAMES, PAGE_NAMES.NOT_FOUND>]: string;
@@ -20,5 +20,6 @@ type AppContextType = {
   >;
 };
 
-type AdminsBoardState = Record<string, AdminData & { checked: boolean }>;
+type AdminsBoardState = Record<string, AdminsBoardData>;
+
 export type { PathsMap, LocalStorageItems, AppContextType, AdminsBoardState };

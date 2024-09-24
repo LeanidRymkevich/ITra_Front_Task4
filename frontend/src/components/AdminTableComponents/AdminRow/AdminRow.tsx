@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 
 import { AdminRowProps } from '../../../types/interfaces';
 
@@ -12,7 +12,16 @@ const AdminRow: FC<AdminRowProps> = ({
   status,
   checked,
   onChange,
+  isPending,
 }) => {
+  const checkboxRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (checkboxRef.current) {
+      checkboxRef.current.checked = checked;
+    }
+  }, [checked]);
+
   return (
     <tr>
       <td>
@@ -20,8 +29,8 @@ const AdminRow: FC<AdminRowProps> = ({
           className="form-check-input"
           type="checkbox"
           value=""
-          checked={checked}
           onChange={onChange}
+          disabled={isPending}
           {...{ [CHECKBOX_DATA_ID_ATTRIBUTE]: id }}
         />
       </td>

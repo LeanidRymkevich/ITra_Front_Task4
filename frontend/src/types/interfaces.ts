@@ -58,13 +58,18 @@ interface AdminData {
   status: ADMIN_STATUS;
 }
 
-interface AdminRowProps extends AdminData {
+interface AdminsBoardData extends AdminData {
   checked: boolean;
+}
+
+interface AdminRowProps extends AdminsBoardData {
+  isPending: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
 interface AdminTableProps {
-  rowsData: Omit<AdminRowProps, 'onChange'>[];
+  isPending: boolean;
+  rowsData: AdminsBoardData[];
   onChange: ChangeEventHandler<HTMLInputElement>; // may be changed later
 }
 
@@ -79,4 +84,5 @@ export type {
   AdminData,
   AdminTableProps,
   AdminRowProps,
+  AdminsBoardData,
 };

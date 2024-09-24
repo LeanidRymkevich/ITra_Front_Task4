@@ -15,3 +15,7 @@ nav a.active {
 .allow-pointer {
   cursor: pointer;
 }
+
+.no-pointer-events {
+  pointer-events: none;
+}

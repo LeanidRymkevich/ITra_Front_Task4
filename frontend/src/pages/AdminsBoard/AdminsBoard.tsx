@@ -24,6 +24,7 @@ const AdminsBoard: FC = (): JSX.Element => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsPending(true);
       const admins = await getAdmins();
 
       const adminsMap: AdminsBoardState = admins.reduce(
@@ -35,6 +36,7 @@ const AdminsBoard: FC = (): JSX.Element => {
       );
 
       setAdminsMap(adminsMap);
+      setIsPending(false);
     };
 
     fetchData();
@@ -81,6 +83,7 @@ const AdminsBoard: FC = (): JSX.Element => {
           <AdminTable
             rowsData={Object.values(adminsMap)}
             onChange={() => console.log('Checkbox changed')}
+            isPending={isPending}
           />
         </div>
       </div>
