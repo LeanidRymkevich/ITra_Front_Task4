@@ -1,5 +1,5 @@
 import { ADMIN_STATUS } from '../types/enums';
-import { AdminData } from '../types/types';
+import { AdminData } from '../types/interfaces';
 
 // Temporary implementation for testing UI
 const TEST_ADMIN: AdminData & { password: string } = {
@@ -8,6 +8,33 @@ const TEST_ADMIN: AdminData & { password: string } = {
   password: '12345',
   name: 'John Smith',
   lastLogin: Date.now().toString(),
+  status: ADMIN_STATUS.ACTIVE,
+};
+
+const TEST_ADMIN1: AdminData & { password: string } = {
+  id: '123452',
+  email: 'johns3mith@gmail.com',
+  password: '12345',
+  name: 'John Smith',
+  lastLogin: Date.now().toString(),
+  status: ADMIN_STATUS.ACTIVE,
+};
+
+const TEST_ADMIN2: AdminData & { password: string } = {
+  id: '1234521',
+  email: 'johns2mith@gmail.com',
+  password: '12345',
+  name: 'Jasdsdsdohn Smiasdadadah',
+  lastLogin: Date.now().toString(),
+  status: ADMIN_STATUS.ACTIVE,
+};
+
+const TEST_ADMIN3: AdminData & { password: string } = {
+  id: '123123124',
+  email: 'johns1mith@gmail.com',
+  password: '12345',
+  name: 'John Smith',
+  lastLogin: new Date(Date.now()).toISOString(),
   status: ADMIN_STATUS.ACTIVE,
 };
 
@@ -22,9 +49,9 @@ const DELAY = 3000; // ms
 // map like {[email: user_obj]}
 const admins: Record<string, typeof TEST_ADMIN> = {
   [TEST_ADMIN.email]: TEST_ADMIN,
-  [TEST_ADMIN.email]: TEST_ADMIN,
-  [TEST_ADMIN.email]: TEST_ADMIN,
-  [TEST_ADMIN.email]: TEST_ADMIN,
+  [TEST_ADMIN1.email]: TEST_ADMIN1,
+  [TEST_ADMIN2.email]: TEST_ADMIN2,
+  [TEST_ADMIN3.email]: TEST_ADMIN3,
 };
 
 const authenticate = async (data: FormData): Promise<AdminData> => {
@@ -89,14 +116,10 @@ const getAdmins = (): Promise<AdminData[]> => {
       setTimeout(() => reject(new Error(NO_RIGHTS_MSG)), DELAY);
       return;
     }
-
-    setTimeout(
-      () =>
-        resolve(
-          Object.values(admins).map((admin) => removePasswordField(admin))
-        ),
-      DELAY
+    const res = Object.values(admins).map((admin) =>
+      removePasswordField(admin)
     );
+    setTimeout(() => resolve(res), DELAY);
   });
 };
 

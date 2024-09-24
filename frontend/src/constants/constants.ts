@@ -10,4 +10,6 @@ const PATHS: PathsMap = {
   [PAGE_NAMES.ADMINS_BOARD]: '/admins_board',
 };
 
-export { PATHS, APP_NAME, ROOT_PATH };
+const CHECKBOX_DATA_ID_ATTRIBUTE = 'data-admin-id';
+
+export { PATHS, APP_NAME, ROOT_PATH, CHECKBOX_DATA_ID_ATTRIBUTE };

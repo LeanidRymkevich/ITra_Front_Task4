@@ -1,10 +1,12 @@
 import {
+  ChangeEventHandler,
   FocusEventHandler,
   FormEventHandler,
   LegacyRef,
   MouseEventHandler,
   ReactNode,
 } from 'react';
+
 import { ADMIN_STATUS } from './enums';
 
 interface ChildrenOnlyProps {
@@ -48,21 +50,22 @@ interface CustomButtonProps {
   disabled?: boolean;
 }
 
-interface AdminTableRowData {
+interface AdminData {
   id: string;
-  checked: boolean;
   name: string;
   email: string;
   lastLogin: string;
   status: ADMIN_STATUS;
 }
 
-interface AdminTableProps {
-  rowsData: AdminTableRowData[];
+interface AdminRowProps extends AdminData {
+  checked: boolean;
+  onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-interface AdminRowProps {
-  data: AdminTableRowData;
+interface AdminTableProps {
+  rowsData: Omit<AdminRowProps, 'onChange'>[];
+  onChange: ChangeEventHandler<HTMLInputElement>; // may be changed later
 }
 
 export type {
@@ -73,7 +76,7 @@ export type {
   FormSubmitButtonProps,
   FormAlertProps,
   CustomButtonProps,
-  AdminTableRowData,
+  AdminData,
   AdminTableProps,
   AdminRowProps,
 };

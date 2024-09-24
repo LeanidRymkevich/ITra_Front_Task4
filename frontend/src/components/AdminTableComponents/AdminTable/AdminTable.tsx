@@ -1,30 +1,41 @@
 import { FC, useRef } from 'react';
 import { ADMIN_TABLE_COLUMN_TITLES } from '../../../types/enums';
-import { AdminTableRowData } from '../../../types/interfaces';
+import { AdminTableProps } from '../../../types/interfaces';
+import AdminRow from '../AdminRow/AdminRow';
 
-const AdminTable: FC<AdminTableRowData> = ({ rowsData }) => {
-  const selectAllCheckboxRef = useRef(null);
+const AdminTable: FC<AdminTableProps> = ({ rowsData, onChange }) => {
+  const selectAllCheckboxRef = useRef<HTMLInputElement | null>(null);
+  // selectAllCheckboxRef.current!.indeterminate = true;
 
   return (
-    <table className="table table-hover table-bordered border-dark table-responsive">
+    <table className="table table-hover table-bordered border-dark">
       <thead className="table-dark">
         <tr>
-          <th scope="col">
+          <th>
             <input
-              className="form-check-input"
+              className="form-check-input bg-light"
               type="checkbox"
               value=""
               id="flexCheckIndeterminate"
               ref={selectAllCheckboxRef}
             />
           </th>
-          <th scope="col">{ADMIN_TABLE_COLUMN_TITLES.NAME}</th>
-          <th scope="col">{ADMIN_TABLE_COLUMN_TITLES.EMAIL}</th>
-          <th scope="col">{ADMIN_TABLE_COLUMN_TITLES.LAST_LOGIN}</th>
-          <th scope="col">{ADMIN_TABLE_COLUMN_TITLES.STATUS}</th>
+          <th>
+            <div>
+              <span>{ADMIN_TABLE_COLUMN_TITLES.NAME}</span>
+              <span></span>
+            </div>
+          </th>
+          <th>{ADMIN_TABLE_COLUMN_TITLES.EMAIL}</th>
+          <th>{ADMIN_TABLE_COLUMN_TITLES.LAST_LOGIN}</th>
+          <th>{ADMIN_TABLE_COLUMN_TITLES.STATUS}</th>
         </tr>
-        <tbody></tbody>
       </thead>
+      <tbody className="table-secondary">
+        {rowsData.map((data) => (
+          <AdminRow {...{ ...data, onChange }} key={data.id} />
+        ))}
+      </tbody>
     </table>
   );
 };

@@ -6,7 +6,7 @@ import {
   FORM_LABEL_TEXTS,
   FORM_LABEL_NAME_ATTR,
 } from '../../types/enums';
-import { AdminData } from '../../types/types';
+import { AdminData } from '../../types/interfaces';
 
 import Container from '../../components/Container/Container';
 import CustomForm from '../../components/FormComponents/CustomForm/CustomForm';

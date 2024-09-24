@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { setRecord } from '../utils/localStorage_util';
 import { LOCAL_STORAGE_ITEM_NAME } from '../types/enums';
-import { AdminData } from '../types/types';
+import { AdminData } from '../types/interfaces';
 
 const useAuthState = () => {
   const { setAuthToken, authToken } = useContext(AuthContext);
