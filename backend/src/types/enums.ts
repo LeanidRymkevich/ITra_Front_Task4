@@ -1,5 +1,11 @@
 enum ENDPOINTS {
   ADMINS = '/admins',
+  AUTH = '/auth',
+}
+
+enum AUTH_ENDPOINTS {
+  SIGN_IN = '/sign_in',
+  SIGN_UP = '/sign_up',
 }
 
 enum ADMIN_STATUS {
@@ -7,4 +13,4 @@ enum ADMIN_STATUS {
   ACTIVE = 'Active',
 }
 
-export { ENDPOINTS, ADMIN_STATUS };
+export { ENDPOINTS, ADMIN_STATUS, AUTH_ENDPOINTS };
