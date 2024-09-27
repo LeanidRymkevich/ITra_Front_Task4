@@ -1,9 +1,9 @@
 import 'dotenv/config';
 import { Dialect, Options } from 'sequelize';
 
-import { Mode } from '../types';
+import { DevelopmentMode } from '../../types/types';
 
-const configs: Record<Mode, Options> = {
+const configs: Record<DevelopmentMode, Options> = {
   development: {
     username: process.env.DB_USER_NAME,
     password: process.env.DB_PASSWORD,
