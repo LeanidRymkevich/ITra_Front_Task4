@@ -1,8 +1,11 @@
-import Admin from '../db/models/Admin';
+import { ADMIN_STATUS } from './enums';
 
-interface UpdateAdminsBody {
-  ids: string[];
-  data: (typeof Admin)[];
+interface AdminData {
+  id: string;
+  name: string;
+  email: string;
+  lastLogin: string;
+  status: ADMIN_STATUS;
 }
 
-export { UpdateAdminsBody };
+export { AdminData };

@@ -9,10 +9,12 @@ import { ENDPOINTS } from './types/enums';
 const app = async (port: string): Promise<void> => {
   const server = express();
 
-  server.use(ENDPOINTS.ADMINS, adminsRouter);
-
+  //middlewares
   server.use(express.json());
   server.use(cors());
+
+  // routes
+  server.use(ENDPOINTS.ADMINS, adminsRouter);
 
   await db.sync();
   server.listen(port, (): void => {
