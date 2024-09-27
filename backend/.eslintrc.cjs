@@ -16,6 +16,7 @@ module.exports = {
     node: true,
   },
   plugins: ['@typescript-eslint/eslint-plugin'],
+  ignorePatterns: ['dist/', '.eslintrc.cjs'],
   rules: {
     'comma-dangle': ['error', 'only-multiline'],
     '@typescript-eslint/interface-name-prefix': 'off',
