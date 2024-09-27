@@ -13,4 +13,9 @@ enum ADMIN_STATUS {
   ACTIVE = 'Active',
 }
 
-export { ENDPOINTS, ADMIN_STATUS, AUTH_ENDPOINTS };
+enum ERROR_MSGs {
+  UNAUTHORIZED = 'Admin no longer exists or has been blocked, or deleted.',
+  INVALID_PASSWORD = `Invalid password`,
+}
+
+export { ENDPOINTS, ADMIN_STATUS, AUTH_ENDPOINTS, ERROR_MSGs };

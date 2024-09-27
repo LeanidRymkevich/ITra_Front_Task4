@@ -1,14 +1,17 @@
 import { Router } from 'express';
 import { hashSync, compare } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
 
 import Admin from '../db/models/Admin';
 
 import { SignUpData, SignInData } from '../types/interfaces';
-import { ADMIN_STATUS, AUTH_ENDPOINTS } from '../types/enums';
+import { ADMIN_STATUS, AUTH_ENDPOINTS, ERROR_MSGs } from '../types/enums';
+import { StatusCodes } from 'http-status-codes';
 
 import { getAdminData, getCurrentDateString } from '../utils/data_transform';
+import { sendResponse } from '../utils/resp_sender';
 
-const HASH_SALT = 10;
+import { ACCESS_TOKEN_HEADER, JWT_SECRET, HASH_SALT } from '../constants';
 
 const router: Router = Router();
 
@@ -23,7 +26,13 @@ router.post(AUTH_ENDPOINTS.SIGN_UP, async (req, resp): Promise<void> => {
     lastLogin: getCurrentDateString(),
   });
 
-  resp.json(getAdminData(admin));
+  const token = sign({ id: admin.id, password: hashedPassword }, JWT_SECRET);
+  const sentData = {
+    [ACCESS_TOKEN_HEADER]: token,
+    data: getAdminData(admin),
+  };
+
+  sendResponse(resp, StatusCodes.OK, sentData);
 });
 
 router.post(AUTH_ENDPOINTS.SIGN_IN, async (req, resp): Promise<void> => {
@@ -35,13 +44,29 @@ router.post(AUTH_ENDPOINTS.SIGN_IN, async (req, resp): Promise<void> => {
     },
   });
 
-  if (!admin) {
-    resp.json({ error: `Admin Doesn't exist` });
-  } else if (!(await compare(password, admin.password))) {
-    resp.json({ error: `Invalid password` });
-  } else {
-    resp.json(getAdminData(admin));
+  if (!admin || admin.status === ADMIN_STATUS.BLOCKED) {
+    sendResponse(resp, StatusCodes.UNAUTHORIZED, null, ERROR_MSGs.UNAUTHORIZED);
+    return;
   }
+
+  if (!(await compare(password, admin.password))) {
+    sendResponse(
+      resp,
+      StatusCodes.UNAUTHORIZED,
+      null,
+      ERROR_MSGs.INVALID_PASSWORD
+    );
+    return;
+  }
+
+  const hashedPassword: string = hashSync(password, HASH_SALT);
+  const token = sign({ id: admin.id, password: hashedPassword }, JWT_SECRET);
+  const sentData = {
+    [ACCESS_TOKEN_HEADER]: token,
+    data: getAdminData(admin),
+  };
+
+  sendResponse(resp, StatusCodes.OK, sentData);
 });
 
 export default router;
