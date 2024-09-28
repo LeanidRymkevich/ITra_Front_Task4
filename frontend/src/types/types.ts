@@ -12,13 +12,20 @@ type LocalStorageItems = {
   [LOCAL_STORAGE_ITEM_NAME.ADMIN_NAME]: string | null;
 };
 
-type AppContextType = {
+type AuthState = {
   [LOCAL_STORAGE_ITEM_NAME.AUTH_TOKEN]:
     | LocalStorageItems[LOCAL_STORAGE_ITEM_NAME.AUTH_TOKEN]
     | null;
-  setAuthToken: Dispatch<
-    SetStateAction<LocalStorageItems[LOCAL_STORAGE_ITEM_NAME.AUTH_TOKEN]>
-  >;
+  [LOCAL_STORAGE_ITEM_NAME.ADMIN_NAME]:
+    | LocalStorageItems[LOCAL_STORAGE_ITEM_NAME.ADMIN_NAME]
+    | null;
+  isAuthenticating: boolean;
+  errorMsg: string | null;
+};
+
+type AuthContextType = {
+  authState: AuthState;
+  setAuthState: Dispatch<SetStateAction<AuthState>>;
 };
 
 type AdminsBoardState = Record<string, AdminsBoardData>;
@@ -36,7 +43,8 @@ type ManageAdminActionArgs = {
 export type {
   PathsMap,
   LocalStorageItems,
-  AppContextType,
+  AuthContextType,
   AdminsBoardState,
   ManageAdminActionArgs,
+  AuthState,
 };

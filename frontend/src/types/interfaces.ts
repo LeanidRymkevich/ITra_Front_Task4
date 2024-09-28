@@ -7,6 +7,7 @@ import {
 } from 'react';
 
 import { ADMIN_STATUS } from './enums';
+import { TOKEN_HEADER } from '../constants/constants';
 
 interface ChildrenOnlyProps {
   children: ReactNode;
@@ -52,7 +53,8 @@ interface CustomButtonProps {
 
 interface AdminData {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   lastLogin: string;
   status: ADMIN_STATUS;
@@ -74,6 +76,12 @@ interface AdminTableProps {
   headerCheckboxOnChange: (checkboxState: boolean) => void;
 }
 
+interface ServerResponse {
+  error?: string;
+  data?: AdminData | AdminData[];
+  [TOKEN_HEADER]?: string;
+}
+
 export type {
   ChildrenOnlyProps,
   CustomFormProps,
@@ -86,4 +94,5 @@ export type {
   AdminTableProps,
   AdminRowProps,
   AdminsBoardData,
+  ServerResponse,
 };

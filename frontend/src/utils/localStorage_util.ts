@@ -23,6 +23,8 @@ const loadState = (): LocalStorageItems => {
   return state as LocalStorageItems;
 };
 
+const loadedState = loadState();
+
 const getItem = (key: LOCAL_STORAGE_ITEM_NAME) => {
   const record: string | null = localStorage.getItem(key);
   if (!record) return record;
@@ -33,4 +35,4 @@ const setRecord = (key: LOCAL_STORAGE_ITEM_NAME, value: unknown): void => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
-export { loadState, setRecord, getItem };
+export { loadedState, setRecord, getItem };
