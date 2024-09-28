@@ -23,6 +23,7 @@ const validateToken = async (
 
     const admin = await Admin.findByPk(validToken.id);
     if (!admin || admin.status === ADMIN_STATUS.BLOCKED) throw new Error();
+    req.body.id = validToken.id;
 
     return next();
   } catch (err) {

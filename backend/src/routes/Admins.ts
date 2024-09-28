@@ -11,22 +11,35 @@ import { getAdminDataArray } from '../utils/data_transform';
 import { ROOT } from '../constants';
 import { StatusCodes } from 'http-status-codes';
 import { ValidationError } from 'sequelize';
+import { ADMIN_STATUS } from '../types/enums';
 
 const router: Router = Router();
+
+const rightsCheck = (allAdmins: Admin[], id: string): boolean => {
+  const admin: Admin | undefined = allAdmins.find((admin) => (admin.id = id));
+  if (!admin || admin.status === ADMIN_STATUS.BLOCKED) return false;
+  return true;
+};
 
 const getAllAdmins = async (): Promise<Admin[]> => {
   return await Admin.findAll();
 };
 
-const sendAdminsData = async (resp: Response): Promise<void> => {
+const sendAdminsData = async (resp: Response, id: string): Promise<void> => {
   const admins: Admin[] = await getAllAdmins();
+
+  if (!rightsCheck(admins, id)) {
+    resp.statusCode = StatusCodes.UNAUTHORIZED;
+    resp.json({});
+    return;
+  }
   resp.json({
     data: getAdminDataArray(admins),
   });
 };
 
-router.get(ROOT, validateToken, async (_req, resp): Promise<void> => {
-  sendAdminsData(resp);
+router.get(ROOT, validateToken, async (req, resp): Promise<void> => {
+  sendAdminsData(resp, req.body.id);
 });
 
 router.patch(ROOT, validateToken, async (req, resp): Promise<void> => {
@@ -51,7 +64,7 @@ router.patch(ROOT, validateToken, async (req, resp): Promise<void> => {
     throw error;
   }
 
-  sendAdminsData(resp);
+  sendAdminsData(resp, req.body.id);
 });
 
 router.delete(ROOT, validateToken, async (req, resp): Promise<void> => {
@@ -67,7 +80,7 @@ router.delete(ROOT, validateToken, async (req, resp): Promise<void> => {
     })
   );
 
-  sendAdminsData(resp);
+  sendAdminsData(resp, req.body.id);
 });
 
 export default router;
