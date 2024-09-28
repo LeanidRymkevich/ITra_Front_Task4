@@ -11,4 +11,8 @@ const getCurrentDateString = (): string => {
   return new Date(Date.now()).toLocaleString('en-GB');
 };
 
-export { getAdminData, getCurrentDateString };
+const getAdminDataArray = (admins: Admin[]): AdminData[] => {
+  return admins.map((admin) => getAdminData(admin));
+};
+
+export { getAdminData, getCurrentDateString, getAdminDataArray };
