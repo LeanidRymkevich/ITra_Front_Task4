@@ -2,7 +2,6 @@ import {
   Table,
   Column,
   Model,
-  Unique,
   Index,
   NotEmpty,
   IsIn,
@@ -39,7 +38,6 @@ class Admin extends Model {
   @NotNull
   @NotEmpty
   @IsEmail
-  @Unique
   @Index(EMAIL_INDEX_NAME)
   @Column
   email: string;
