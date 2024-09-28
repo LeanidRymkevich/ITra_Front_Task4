@@ -9,6 +9,7 @@ import {
   LEAVING_AUTH_STATE,
   UNAUTHORIZED_EXIT_DELAY,
 } from '../constants/constants';
+import { ERROR_MSGs } from '../types/enums';
 
 const initialAuthState: AuthState = {
   ...loadedState,
@@ -31,19 +32,18 @@ const AuthContextElement: FC<ChildrenOnlyProps> = ({ children }) => {
 
     const fetch = async (token: string): Promise<void> => {
       setAuthState({ ...authState, isAuthenticating: true });
-      const resp = await authWithToken(token);
+      try {
+        await authWithToken(token);
 
-      const { error } = resp;
-      if (error) {
+        setAuthState({ ...authState, isAuthenticating: false });
+      } catch {
         setAuthState({
           ...authState,
-          errorMsg: error,
+          errorMsg: ERROR_MSGs.UNAUTHORIZED,
         });
         setTimeout((): void => {
           setAuthState(LEAVING_AUTH_STATE);
         }, UNAUTHORIZED_EXIT_DELAY);
-      } else {
-        setAuthState({ ...authState, isAuthenticating: false });
       }
     };
 
