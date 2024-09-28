@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, MouseEventHandler } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { HEADER_LINK_NAMES, PAGE_NAMES } from '../../types/enums';
@@ -9,15 +9,25 @@ import useAuthState from '../../hooks/useAuthState';
 
 import { APP_NAME, PATHS } from '../../constants/constants';
 
-// TODO check sign out handler according to production auth process, for now here is testing variant
-
 const MENU_TITLE = 'Menu';
 
 const Header: FC = () => {
-  const { saveToken, authToken } = useAuthState();
+  const { authState, leaveAdminsPage } = useAuthState();
+  const { authToken, adminName, isAuthenticating } = authState;
 
-  const signOutOnClick = () => {
-    saveToken(null);
+  const signOutOnClick: MouseEventHandler = (e) => {
+    if (isAuthenticating) {
+      e.preventDefault();
+      return;
+    }
+    leaveAdminsPage();
+  };
+
+  const onLinkClick: MouseEventHandler = (e) => {
+    if (isAuthenticating) {
+      e.preventDefault();
+      return;
+    }
   };
 
   return (
@@ -37,6 +47,7 @@ const Header: FC = () => {
               data-bs-target="#offcanvasNavbar"
               aria-controls="offcanvasNavbar"
               aria-label="Toggle navigation"
+              disabled={isAuthenticating}
             >
               <span className="navbar-toggler-icon"></span>
             </button>
@@ -57,6 +68,7 @@ const Header: FC = () => {
                   className="btn-close"
                   data-bs-dismiss="offcanvas"
                   aria-label="Close"
+                  disabled={isAuthenticating}
                 ></button>
               </div>
 
@@ -69,7 +81,7 @@ const Header: FC = () => {
                     <span style={{ display: authToken ? 'block' : 'none' }}>
                       <span>Hello, </span>
                       <span className="text-primary-emphasis text-decoration-underline">
-                        {authToken && authToken.name}
+                        {authToken && adminName}
                       </span>
                       <span>!</span>
                     </span>
@@ -82,6 +94,7 @@ const Header: FC = () => {
                       className="nav-link w-fit-content"
                       aria-current="page"
                       to={PATHS[PAGE_NAMES.SIGN_IN]}
+                      onClick={onLinkClick}
                     >
                       {HEADER_LINK_NAMES.SIGN_IN}
                     </NavLink>
@@ -94,6 +107,7 @@ const Header: FC = () => {
                     <NavLink
                       className="nav-link w-fit-content"
                       to={PATHS[PAGE_NAMES.SIGN_UP]}
+                      onClick={onLinkClick}
                     >
                       {HEADER_LINK_NAMES.SIGN_UP}
                     </NavLink>

@@ -11,7 +11,7 @@ import useAuthState from '../hooks/useAuthState';
 import { FC } from 'react';
 
 const Router: FC = () => {
-  const { authToken } = useAuthState();
+  const { authState } = useAuthState();
 
   return (
     <BrowserRouter>
@@ -21,7 +21,7 @@ const Router: FC = () => {
           element={<Layout />}
           errorElement={<Fallback />}
         >
-          {authToken ? privateRoutes : publicRoutes}
+          {authState.authToken ? privateRoutes : publicRoutes}
 
           <Route path="*" element={<NotFound />} />
         </Route>

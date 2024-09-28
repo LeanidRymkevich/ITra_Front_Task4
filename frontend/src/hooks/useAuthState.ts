@@ -46,6 +46,8 @@ const useAuthState = () => {
     } else {
       setAuthState(LEAVING_AUTH_STATE);
     }
+    setRecord(LOCAL_STORAGE_ITEM_NAME.AUTH_TOKEN, null);
+    setRecord(LOCAL_STORAGE_ITEM_NAME.ADMIN_NAME, null);
   };
 
   return { getAdminsAccess, leaveAdminsPage, authState, setAuthState };
