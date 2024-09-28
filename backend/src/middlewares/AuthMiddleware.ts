@@ -3,10 +3,8 @@ import { Response, Request, NextFunction } from 'express';
 
 import Admin from '../db/models/Admin';
 
-import { ADMIN_STATUS, ERROR_MSGs } from '../types/enums';
+import { ADMIN_STATUS } from '../types/enums';
 import { StatusCodes } from 'http-status-codes';
-
-import { sendResponse } from '../utils/resp_sender';
 
 import { ACCESS_TOKEN_HEADER, JWT_SECRET } from '../constants';
 
@@ -28,7 +26,8 @@ const validateToken = async (
 
     return next();
   } catch (err) {
-    sendResponse(res, StatusCodes.UNAUTHORIZED, null, ERROR_MSGs.UNAUTHORIZED);
+    res.statusCode = StatusCodes.UNAUTHORIZED;
+    res.json({});
   }
 };
 

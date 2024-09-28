@@ -9,6 +9,8 @@ import { AdminData } from '../types/interfaces';
 import { getAdminDataArray } from '../utils/data_transform';
 
 import { ROOT } from '../constants';
+import { StatusCodes } from 'http-status-codes';
+import { ValidationError } from 'sequelize';
 
 const router: Router = Router();
 
@@ -30,15 +32,24 @@ router.get(ROOT, validateToken, async (_req, resp): Promise<void> => {
 router.patch(ROOT, validateToken, async (req, resp): Promise<void> => {
   const data: AdminData[] = req.body;
 
-  await Promise.all(
-    data.map((item) => {
-      return Admin.update(item, {
-        where: {
-          id: item.id,
-        },
-      });
-    })
-  );
+  try {
+    await Promise.all(
+      data.map((item) => {
+        return Admin.update(item, {
+          where: {
+            id: item.id,
+          },
+        });
+      })
+    );
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      resp.statusCode = StatusCodes.OK;
+      resp.json({ error: error.message });
+      return;
+    }
+    throw error;
+  }
 
   sendAdminsData(resp);
 });
