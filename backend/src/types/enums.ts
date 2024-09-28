@@ -16,6 +16,7 @@ enum ADMIN_STATUS {
 enum ERROR_MSGs {
   UNAUTHORIZED = 'Admin no longer exists or has been blocked, or deleted.',
   INVALID_PASSWORD = `Invalid password`,
+  INVALID_ADMIN_CREATE_DATA = 'Invalid data for creating admin',
 }
 
 export { ENDPOINTS, ADMIN_STATUS, AUTH_ENDPOINTS, ERROR_MSGs };

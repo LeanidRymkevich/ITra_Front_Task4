@@ -30,7 +30,7 @@ const manageAdminsActions = async (
     const admins = await action(ids);
     const adminsMap: AdminsBoardState = admins.reduce(
       (obj: AdminsBoardState, admin: AdminData) => {
-        obj[admin.id] = { ...admin, checked: false }; // TODO uncheck all checkboxes after action. Is that correct?
+        obj[admin.id] = { ...admin, checked: false };
         return obj;
       },
       {}

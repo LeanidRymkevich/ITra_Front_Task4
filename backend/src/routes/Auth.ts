@@ -13,6 +13,7 @@ import { sendResponse } from '../utils/resp_sender';
 
 import { ACCESS_TOKEN_HEADER, JWT_SECRET, HASH_SALT, ROOT } from '../constants';
 import validateToken from '../middlewares/AuthMiddleware';
+import { ValidationError } from 'sequelize';
 
 const router: Router = Router();
 
@@ -21,17 +22,29 @@ router.post(ROOT, validateToken, async (_req, resp): Promise<void> => {
   resp.json({ data: {} });
 });
 
-// TODO think about validation errors thrown by Model
 router.post(AUTH_ENDPOINTS.SIGN_UP, async (req, resp): Promise<void> => {
   const data: SignUpData = req.body;
   const hashedPassword: string = hashSync(data.password, HASH_SALT);
 
-  const admin: Admin = await Admin.create({
-    ...data,
-    password: hashedPassword,
-    status: ADMIN_STATUS.ACTIVE,
-    lastLogin: getCurrentDateString(),
-  });
+  let admin: Admin;
+
+  try {
+    admin = await Admin.create({
+      ...data,
+      password: hashedPassword,
+      status: ADMIN_STATUS.ACTIVE,
+      lastLogin: getCurrentDateString(),
+    });
+  } catch (err) {
+    if (!(err instanceof ValidationError)) throw err;
+    sendResponse(
+      resp,
+      StatusCodes.BAD_REQUEST,
+      null,
+      ERROR_MSGs.INVALID_ADMIN_CREATE_DATA
+    );
+    return;
+  }
 
   const token = sign({ id: admin.id, password: hashedPassword }, JWT_SECRET);
   const sentData = {
