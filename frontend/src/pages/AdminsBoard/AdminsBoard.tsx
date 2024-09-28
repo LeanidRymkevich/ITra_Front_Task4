@@ -19,6 +19,8 @@ const AdminsBoard: FC = (): JSX.Element => {
 
   const { authState, leaveAdminsPage } = useAuthState();
 
+  const resError = error ? error.message : authState.errorMsg || '';
+
   useEffect(() => {
     const fetchData = async () => {
       await manageAdminsActions({
@@ -138,8 +140,8 @@ const AdminsBoard: FC = (): JSX.Element => {
           />
         </div>
 
-        {error && (
-          <FormAlert msg={error.message} onClick={() => setError(null)} />
+        {resError && (
+          <FormAlert msg={resError} onClick={() => setError(null)} />
         )}
 
         <div className="table-responsive">

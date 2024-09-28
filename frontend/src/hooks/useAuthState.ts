@@ -16,22 +16,25 @@ const useAuthState = () => {
     formData: FormData
   ): Promise<void> => {
     setAuthState({ ...authState, isAuthenticating: true });
-    const { error, accessToken, data } = await cb(formData);
-    if (error) {
-      setAuthState({ ...LEAVING_AUTH_STATE, errorMsg: error });
-      return;
-    }
-    const { firstName, lastName } = data as AdminData;
-    const adminName = `${firstName} ${lastName}`;
-    setAuthState({
-      authToken: accessToken!,
-      adminName,
-      isAuthenticating: false,
-      errorMsg: null,
-    });
 
-    setRecord(LOCAL_STORAGE_ITEM_NAME.AUTH_TOKEN, accessToken!);
-    setRecord(LOCAL_STORAGE_ITEM_NAME.ADMIN_NAME, adminName);
+    try {
+      const { data, accessToken } = await cb(formData);
+
+      const { firstName, lastName } = data as AdminData;
+      const adminName = `${firstName} ${lastName}`;
+      setAuthState({
+        authToken: accessToken!,
+        adminName,
+        isAuthenticating: false,
+        errorMsg: null,
+      });
+
+      setRecord(LOCAL_STORAGE_ITEM_NAME.AUTH_TOKEN, accessToken!);
+      setRecord(LOCAL_STORAGE_ITEM_NAME.ADMIN_NAME, adminName);
+    } catch (error) {
+      if (!(error instanceof Error)) throw error;
+      setAuthState({ ...LEAVING_AUTH_STATE, errorMsg: error.message });
+    }
   };
 
   const leaveAdminsPage = (error?: string): void => {

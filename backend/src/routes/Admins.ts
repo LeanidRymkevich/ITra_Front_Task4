@@ -16,7 +16,8 @@ import { ADMIN_STATUS } from '../types/enums';
 const router: Router = Router();
 
 const rightsCheck = (allAdmins: Admin[], id: string): boolean => {
-  const admin: Admin | undefined = allAdmins.find((admin) => (admin.id = id));
+  const admin: Admin | undefined = allAdmins.find((admin) => admin.id === id);
+  console.log(admin);
   if (!admin || admin.status === ADMIN_STATUS.BLOCKED) return false;
   return true;
 };
@@ -27,7 +28,7 @@ const getAllAdmins = async (): Promise<Admin[]> => {
 
 const sendAdminsData = async (resp: Response, id: string): Promise<void> => {
   const admins: Admin[] = await getAllAdmins();
-
+  console.log(id);
   if (!rightsCheck(admins, id)) {
     resp.statusCode = StatusCodes.UNAUTHORIZED;
     resp.json({});
