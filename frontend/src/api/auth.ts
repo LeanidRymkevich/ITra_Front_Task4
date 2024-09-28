@@ -1,8 +1,11 @@
 import axios, { AxiosError, HttpStatusCode } from 'axios';
-import { SERVER_URL, TOKEN_HEADER } from '../constants/constants';
+
 import { SERVER_ENDPOINTS } from '../types/enums';
 import { ServerResponse } from '../types/interfaces';
+
 import UnauthorizedError from '../errors/UnauthorizedError';
+
+import { SERVER_URL, TOKEN_HEADER } from '../constants/constants';
 
 const authWithToken = async (token: string): Promise<ServerResponse> => {
   const url = `${SERVER_URL}${SERVER_ENDPOINTS.AUTH_WITH_TOKEN}`;

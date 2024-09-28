@@ -1,9 +1,12 @@
 import axios, { AxiosError, HttpStatusCode } from 'axios';
+
 import { AdminData, ServerResponse } from '../types/interfaces';
-import { SERVER_URL, TOKEN_HEADER } from '../constants/constants';
 import { LOCAL_STORAGE_ITEM_NAME, SERVER_ENDPOINTS } from '../types/enums';
-import { getItem } from '../utils/localStorage_util';
 import UnauthorizedError from '../errors/UnauthorizedError';
+
+import { getItem } from '../utils/localStorage_util';
+
+import { SERVER_URL, TOKEN_HEADER } from '../constants/constants';
 
 const URL = `${SERVER_URL}${SERVER_ENDPOINTS.ADMINS}`;
 

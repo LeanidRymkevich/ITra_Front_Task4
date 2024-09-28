@@ -2,14 +2,16 @@ import { createContext, FC, useEffect, useState } from 'react';
 
 import { AuthContextType, AuthState } from '../types/types';
 
-import { loadedState } from '../utils/localStorage_util';
 import { ChildrenOnlyProps } from '../types/interfaces';
+import { ERROR_MSGs } from '../types/enums';
+
+import { loadedState } from '../utils/localStorage_util';
 import { authWithToken } from '../api/auth';
+
 import {
   LEAVING_AUTH_STATE,
   UNAUTHORIZED_EXIT_DELAY,
 } from '../constants/constants';
-import { ERROR_MSGs } from '../types/enums';
 
 const initialAuthState: AuthState = {
   ...loadedState,

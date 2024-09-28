@@ -56,6 +56,7 @@ const AdminsBoard: FC = (): JSX.Element => {
       checkedAdmins
     );
   };
+
   const onUnblockBtnClick = async () => {
     const checkedAdmins = Object.values(adminsMap)
       .filter((admin) => admin.checked === true)
@@ -76,6 +77,7 @@ const AdminsBoard: FC = (): JSX.Element => {
       checkedAdmins
     );
   };
+
   const onDeleteBtnClick = async () => {
     const checkedAdmins = Object.values(adminsMap).filter(
       (admin) => admin.checked === true
@@ -122,6 +124,7 @@ const AdminsBoard: FC = (): JSX.Element => {
               disabled: isPending || authState.isAuthenticating,
             }}
           />
+
           <CustomButton
             {...{
               icon: <i className="bi bi-unlock-fill"></i>,
@@ -130,6 +133,7 @@ const AdminsBoard: FC = (): JSX.Element => {
               disabled: isPending || authState.isAuthenticating,
             }}
           />
+
           <CustomButton
             {...{
               icon: <i className="bi bi-trash3-fill"></i>,

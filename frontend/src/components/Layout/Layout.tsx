@@ -1,7 +1,9 @@
 import { FC } from 'react';
-import Header from '../Header/Header';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { useLocation, Outlet } from 'react-router-dom';
+
+import Header from '../Header/Header';
+
 import { getPageNameByPath } from '../../utils/paths_utils';
 
 const Layout: FC = (): JSX.Element => {

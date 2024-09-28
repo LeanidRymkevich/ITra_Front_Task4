@@ -1,8 +1,12 @@
 import { useContext } from 'react';
-import { AuthContext } from '../contexts/AuthContext';
-import { setRecord } from '../utils/localStorage_util';
+
 import { LOCAL_STORAGE_ITEM_NAME } from '../types/enums';
 import { AdminData, ServerResponse } from '../types/interfaces';
+
+import { AuthContext } from '../contexts/AuthContext';
+
+import { setRecord } from '../utils/localStorage_util';
+
 import {
   LEAVING_AUTH_STATE,
   UNAUTHORIZED_EXIT_DELAY,

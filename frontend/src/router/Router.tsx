@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { privateRoutes, publicRoutes } from './routes';
@@ -6,9 +7,9 @@ import Fallback from '../components/Fallback/Fallback';
 import Layout from '../components/Layout/Layout';
 import NotFound from '../pages/NotFound/NotFound';
 
-import { ROOT_PATH } from '../constants/constants';
 import useAuthState from '../hooks/useAuthState';
-import { FC } from 'react';
+
+import { ROOT_PATH } from '../constants/constants';
 
 const Router: FC = () => {
   const { authState } = useAuthState();
