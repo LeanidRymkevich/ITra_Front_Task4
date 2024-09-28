@@ -32,7 +32,7 @@ router.post(AUTH_ENDPOINTS.SIGN_UP, async (req, resp): Promise<void> => {
     data: getAdminData(admin),
   };
 
-  sendResponse(resp, StatusCodes.OK, sentData);
+  sendResponse(resp, StatusCodes.CREATED, sentData);
 });
 
 router.post(AUTH_ENDPOINTS.SIGN_IN, async (req, resp): Promise<void> => {

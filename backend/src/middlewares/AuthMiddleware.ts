@@ -1,11 +1,14 @@
 import { verify } from 'jsonwebtoken';
 import { Response, Request, NextFunction } from 'express';
 
-import { ACCESS_TOKEN_HEADER, JWT_SECRET } from '../constants';
-import { sendResponse } from '../utils/resp_sender';
-import { StatusCodes } from 'http-status-codes';
-import { ADMIN_STATUS, ERROR_MSGs } from '../types/enums';
 import Admin from '../db/models/Admin';
+
+import { ADMIN_STATUS, ERROR_MSGs } from '../types/enums';
+import { StatusCodes } from 'http-status-codes';
+
+import { sendResponse } from '../utils/resp_sender';
+
+import { ACCESS_TOKEN_HEADER, JWT_SECRET } from '../constants';
 
 const validateToken = async (
   req: Request,
