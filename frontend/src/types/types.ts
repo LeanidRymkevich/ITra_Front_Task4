@@ -8,7 +8,8 @@ type PathsMap = {
 };
 
 type LocalStorageItems = {
-  [key in LOCAL_STORAGE_ITEM_NAME]: AdminData | null;
+  [LOCAL_STORAGE_ITEM_NAME.AUTH_TOKEN]: string | null;
+  [LOCAL_STORAGE_ITEM_NAME.ADMIN_NAME]: string | null;
 };
 
 type AppContextType = {

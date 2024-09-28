@@ -3,6 +3,11 @@ import { LocalStorageItems } from '../types/types';
 
 const DEFAULT_ITEMS: LocalStorageItems = {
   [LOCAL_STORAGE_ITEM_NAME.AUTH_TOKEN]: null,
+  [LOCAL_STORAGE_ITEM_NAME.ADMIN_NAME]: null,
+};
+
+const parseRecord = (record: string): unknown => {
+  return record === 'undefined' ? undefined : JSON.parse(record);
 };
 
 const loadState = (): LocalStorageItems => {
@@ -12,16 +17,20 @@ const loadState = (): LocalStorageItems => {
     const value: string | null = localStorage.getItem(key);
     if (value === null) return;
 
-    state[key] = value === 'undefined' ? undefined : JSON.parse(value);
+    state[key] = parseRecord(value);
   });
 
   return state as LocalStorageItems;
 };
 
-const storageItems: LocalStorageItems = loadState();
+const getItem = (key: LOCAL_STORAGE_ITEM_NAME) => {
+  const record: string | null = localStorage.getItem(key);
+  if (!record) return record;
+  return parseRecord(record) as LocalStorageItems[typeof key];
+};
 
 const setRecord = (key: LOCAL_STORAGE_ITEM_NAME, value: unknown): void => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
-export { storageItems, setRecord };
+export { loadState, setRecord, getItem };

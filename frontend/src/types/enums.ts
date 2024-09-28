@@ -48,11 +48,19 @@ enum ADMIN_TABLE_COLUMN_TITLES {
 
 enum LOCAL_STORAGE_ITEM_NAME {
   AUTH_TOKEN = 'authToken',
+  ADMIN_NAME = 'adminName',
 }
 
 enum TABLE_ROW_CHECKBOX_DATA_ATTR {
   ATTRIBUTE = 'data-admin-id',
   DOM_PROP = 'adminId',
+}
+
+enum SERVER_ENDPOINTS {
+  ADMINS = '/admins',
+  AUTH_WITH_TOKEN = '/auth',
+  SIGN_IN = '/auth/sign_in',
+  SIGN_UP = '/auth/sign_up',
 }
 
 export {
@@ -65,4 +73,5 @@ export {
   ADMIN_TABLE_COLUMN_TITLES,
   LOCAL_STORAGE_ITEM_NAME,
   TABLE_ROW_CHECKBOX_DATA_ATTR,
+  SERVER_ENDPOINTS,
 };
