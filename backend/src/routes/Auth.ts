@@ -11,9 +11,15 @@ import { StatusCodes } from 'http-status-codes';
 import { getAdminData, getCurrentDateString } from '../utils/data_transform';
 import { sendResponse } from '../utils/resp_sender';
 
-import { ACCESS_TOKEN_HEADER, JWT_SECRET, HASH_SALT } from '../constants';
+import { ACCESS_TOKEN_HEADER, JWT_SECRET, HASH_SALT, ROOT } from '../constants';
+import validateToken from '../middlewares/AuthMiddleware';
 
 const router: Router = Router();
+
+// request for proving rights after closing a page's tab with stored on a client accessToken
+router.post(ROOT, validateToken, async (_req, resp): Promise<void> => {
+  resp.json({ data: {} });
+});
 
 router.post(AUTH_ENDPOINTS.SIGN_UP, async (req, resp): Promise<void> => {
   const data: SignUpData = req.body;
