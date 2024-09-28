@@ -63,6 +63,12 @@ enum SERVER_ENDPOINTS {
   SIGN_UP = '/auth/sign_up',
 }
 
+enum ERROR_MSGs {
+  UNAUTHORIZED = 'Admin no longer exists or has been blocked, or deleted.',
+  INVALID_PASSWORD = `Invalid password`,
+  INVALID_ADMIN_CREATE_DATA = 'Invalid data for creating admin',
+}
+
 export {
   PAGE_NAMES,
   HEADER_LINK_NAMES,
@@ -74,4 +80,5 @@ export {
   LOCAL_STORAGE_ITEM_NAME,
   TABLE_ROW_CHECKBOX_DATA_ATTR,
   SERVER_ENDPOINTS,
+  ERROR_MSGs,
 };

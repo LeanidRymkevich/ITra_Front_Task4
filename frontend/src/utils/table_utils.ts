@@ -41,6 +41,7 @@ const manageAdminsActions = async (
     setIsPending(false);
   } catch (error) {
     if (!(error instanceof Error)) throw error;
+    console.log(error instanceof UnauthorizedError);
     if (error instanceof UnauthorizedError) {
       leaveAdminsPage(error.message);
     } else if (error instanceof Error) {
