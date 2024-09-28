@@ -30,13 +30,13 @@ type AuthContextType = {
 
 type AdminsBoardState = Record<string, AdminsBoardData>;
 
-type AdminAction = (ids: string[]) => Promise<AdminData[]>;
+type AdminAction = (admins: AdminData[]) => Promise<AdminData[]>;
 
 type ManageAdminActionArgs = {
   setIsPending: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<Error | null>>;
   setAdminsMap: Dispatch<SetStateAction<AdminsBoardState>>;
-  saveToken: (token: AdminData | null) => void;
+  leaveAdminsPage: (error?: string) => void;
   action: AdminAction;
 };
 

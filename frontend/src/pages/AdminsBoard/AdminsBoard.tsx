@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 
-import { PAGE_NAMES } from '../../types/enums';
+import { ADMIN_STATUS, PAGE_NAMES } from '../../types/enums';
 import { AdminsBoardState } from '../../types/types';
 
 import Container from '../../components/Container/Container';
@@ -8,12 +8,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import FormAlert from '../../components/FormComponents/FormAlert/FormAlert';
 import AdminTable from '../../components/AdminTableComponents/AdminTable/AdminTable';
 
-import {
-  blockAdmins,
-  deleteAdmins,
-  getAdmins,
-  unBlockAdmins,
-} from '../../services/authentication';
+import { getAllAdmins, updateAdmins, deleteAdmins } from '../../api/admins';
 import { manageAdminsActions } from '../../utils/table_utils';
 import useAuthState from '../../hooks/useAuthState';
 
@@ -22,7 +17,7 @@ const AdminsBoard: FC = (): JSX.Element => {
   const [error, setError] = useState<Error | null>(null);
   const [adminsMap, setAdminsMap] = useState<AdminsBoardState>({});
 
-  const { saveToken } = useAuthState();
+  const { authState, leaveAdminsPage } = useAuthState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,8 +25,8 @@ const AdminsBoard: FC = (): JSX.Element => {
         setIsPending,
         setError,
         setAdminsMap,
-        saveToken,
-        action: getAdmins,
+        leaveAdminsPage,
+        action: getAllAdmins,
       });
     };
 
@@ -42,7 +37,9 @@ const AdminsBoard: FC = (): JSX.Element => {
   const onBlockBtnClick = async () => {
     const checkedAdmins = Object.values(adminsMap)
       .filter((admin) => admin.checked === true)
-      .map((admin) => admin.id);
+      .map((admin) => {
+        return { ...admin, status: ADMIN_STATUS.BLOCKED };
+      });
 
     if (!checkedAdmins.length) return;
 
@@ -51,8 +48,8 @@ const AdminsBoard: FC = (): JSX.Element => {
         setIsPending,
         setError,
         setAdminsMap,
-        saveToken,
-        action: blockAdmins,
+        leaveAdminsPage,
+        action: updateAdmins,
       },
       checkedAdmins
     );
@@ -60,7 +57,9 @@ const AdminsBoard: FC = (): JSX.Element => {
   const onUnblockBtnClick = async () => {
     const checkedAdmins = Object.values(adminsMap)
       .filter((admin) => admin.checked === true)
-      .map((admin) => admin.id);
+      .map((admin) => {
+        return { ...admin, status: ADMIN_STATUS.ACTIVE };
+      });
 
     if (!checkedAdmins.length) return;
 
@@ -69,16 +68,16 @@ const AdminsBoard: FC = (): JSX.Element => {
         setIsPending,
         setError,
         setAdminsMap,
-        saveToken,
-        action: unBlockAdmins,
+        leaveAdminsPage,
+        action: updateAdmins,
       },
       checkedAdmins
     );
   };
   const onDeleteBtnClick = async () => {
-    const checkedAdmins = Object.values(adminsMap)
-      .filter((admin) => admin.checked === true)
-      .map((admin) => admin.id);
+    const checkedAdmins = Object.values(adminsMap).filter(
+      (admin) => admin.checked === true
+    );
 
     if (!checkedAdmins.length) return;
 
@@ -87,7 +86,7 @@ const AdminsBoard: FC = (): JSX.Element => {
         setIsPending,
         setError,
         setAdminsMap,
-        saveToken,
+        leaveAdminsPage,
         action: deleteAdmins,
       },
       checkedAdmins
@@ -118,7 +117,7 @@ const AdminsBoard: FC = (): JSX.Element => {
               icon: <i className="bi bi-lock-fill"></i>,
               onClick: onBlockBtnClick,
               classes: 'btn-dark',
-              disabled: isPending,
+              disabled: isPending || authState.isAuthenticating,
             }}
           />
           <CustomButton
@@ -126,7 +125,7 @@ const AdminsBoard: FC = (): JSX.Element => {
               icon: <i className="bi bi-unlock-fill"></i>,
               onClick: onUnblockBtnClick,
               classes: 'btn-dark',
-              disabled: isPending,
+              disabled: isPending || authState.isAuthenticating,
             }}
           />
           <CustomButton
@@ -134,7 +133,7 @@ const AdminsBoard: FC = (): JSX.Element => {
               icon: <i className="bi bi-trash3-fill"></i>,
               onClick: onDeleteBtnClick,
               classes: 'btn-danger',
-              disabled: isPending,
+              disabled: isPending || authState.isAuthenticating,
             }}
           />
         </div>
@@ -146,7 +145,11 @@ const AdminsBoard: FC = (): JSX.Element => {
         <div className="table-responsive">
           <AdminTable
             rowsData={Object.values(adminsMap)}
-            {...{ rowCheckboxOnChange, isPending, headerCheckboxOnChange }}
+            {...{
+              rowCheckboxOnChange,
+              isPending: isPending || authState.isAuthenticating,
+              headerCheckboxOnChange,
+            }}
           />
         </div>
       </div>

@@ -5,7 +5,8 @@ import { TABLE_ROW_CHECKBOX_DATA_ATTR } from '../../../types/enums';
 
 const AdminRow: FC<AdminRowProps> = ({
   id,
-  name,
+  firstName,
+  lastName,
   email,
   lastLogin,
   status,
@@ -34,7 +35,7 @@ const AdminRow: FC<AdminRowProps> = ({
           disabled={isPending}
         />
       </td>
-      <td>{name}</td>
+      <td>{`${firstName} ${lastName}`}</td>
       <td>{email}</td>
       <td>{lastLogin}</td>
       <td>{status}</td>
