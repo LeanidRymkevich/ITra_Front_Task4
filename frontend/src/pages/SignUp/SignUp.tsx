@@ -1,4 +1,4 @@
-import { FC, FormEvent, FormEventHandler, useRef, useState } from 'react';
+import { FC, FormEvent, FormEventHandler, useRef } from 'react';
 
 import {
   PAGE_NAMES,
@@ -14,18 +14,15 @@ import FormSubmitButton from '../../components/FormComponents/FormSubmitButton/F
 import PasswordInput from '../../components/FormComponents/PasswordInput/PasswordInput';
 import TextInput from '../../components/FormComponents/TextInput/TextInput';
 
-import { register } from '../../services/authentication';
+import { signUp } from '../../api/auth';
 import { checkInputsMatch } from '../../utils/forms_utils';
 import useAuthState from '../../hooks/useAuthState';
 
 const SignUp: FC = (): JSX.Element => {
-  const [isFormSending, setIsFormSending] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
-
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
   const repeatPasswordInputRef = useRef<HTMLInputElement | null>(null);
 
-  const { saveToken } = useAuthState();
+  const { getAdminsAccess, authState, setAuthState } = useAuthState();
 
   const onPasswordFocus = (): void => {
     checkInputsMatch(
@@ -34,28 +31,21 @@ const SignUp: FC = (): JSX.Element => {
     );
   };
 
-  // TODO Add redirection on successful auth and fit to auth process
   const onSubmit: FormEventHandler<HTMLFormElement> = async (
     event: FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-    setError(null);
 
     const form = event.target as HTMLFormElement;
     form.classList.add('was-validated');
 
     if (!form.checkValidity()) return;
 
-    try {
-      setIsFormSending(true);
-      const response = await register(new FormData(form));
-      saveToken(response);
-      setIsFormSending(false);
-    } catch (err) {
-      if (!(err instanceof Error)) throw err;
-      setError(err);
-      setIsFormSending(false);
-    }
+    getAdminsAccess(signUp, new FormData(form));
+  };
+
+  const onCloseErrBtn = (): void => {
+    setAuthState({ ...authState, errorMsg: null });
   };
 
   return (
@@ -67,7 +57,7 @@ const SignUp: FC = (): JSX.Element => {
           <CustomForm onSubmit={onSubmit}>
             <TextInput
               {...{
-                isFormSending,
+                isFormSending: authState.isAuthenticating,
                 labelText: FORM_LABEL_TEXTS.FIRST_NAME,
                 tipText: FORM_INPUTS_TIPS.EMAIL,
                 name: FORM_LABEL_NAME_ATTR.FIRST_NAME,
@@ -78,7 +68,7 @@ const SignUp: FC = (): JSX.Element => {
 
             <TextInput
               {...{
-                isFormSending,
+                isFormSending: authState.isAuthenticating,
                 labelText: FORM_LABEL_TEXTS.LAST_NAME,
                 tipText: FORM_INPUTS_TIPS.EMAIL,
                 name: FORM_LABEL_NAME_ATTR.LAST_NAME,
@@ -89,7 +79,7 @@ const SignUp: FC = (): JSX.Element => {
 
             <TextInput
               {...{
-                isFormSending,
+                isFormSending: authState.isAuthenticating,
                 labelText: FORM_LABEL_TEXTS.EMAIL,
                 tipText: FORM_INPUTS_TIPS.EMAIL,
                 name: FORM_LABEL_NAME_ATTR.EMAIL,
@@ -100,7 +90,7 @@ const SignUp: FC = (): JSX.Element => {
 
             <PasswordInput
               {...{
-                isFormSending,
+                isFormSending: authState.isAuthenticating,
                 passwordInputRef,
                 labelText: FORM_LABEL_TEXTS.PASSWORD,
                 tipText: FORM_INPUTS_TIPS.REPEAT_PASSWORD,
@@ -111,7 +101,7 @@ const SignUp: FC = (): JSX.Element => {
 
             <PasswordInput
               {...{
-                isFormSending,
+                isFormSending: authState.isAuthenticating,
                 passwordInputRef: repeatPasswordInputRef,
                 labelText: FORM_LABEL_TEXTS.REPEAT_PASSWORD,
                 tipText: FORM_INPUTS_TIPS.REPEAT_PASSWORD,
@@ -120,12 +110,15 @@ const SignUp: FC = (): JSX.Element => {
               }}
             ></PasswordInput>
 
-            {error && (
-              <FormAlert msg={error.message} onClick={() => setError(null)} />
+            {authState.errorMsg && (
+              <FormAlert msg={authState.errorMsg} onClick={onCloseErrBtn} />
             )}
 
             <FormSubmitButton
-              {...{ isFormSending, text: PAGE_NAMES.SIGN_UP }}
+              {...{
+                isFormSending: authState.isAuthenticating,
+                text: PAGE_NAMES.SIGN_UP,
+              }}
             />
           </CustomForm>
         </div>

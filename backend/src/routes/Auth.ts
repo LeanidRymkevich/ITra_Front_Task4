@@ -21,6 +21,7 @@ router.post(ROOT, validateToken, async (_req, resp): Promise<void> => {
   resp.json({ data: {} });
 });
 
+// TODO think about validation errors thrown by Model
 router.post(AUTH_ENDPOINTS.SIGN_UP, async (req, resp): Promise<void> => {
   const data: SignUpData = req.body;
   const hashedPassword: string = hashSync(data.password, HASH_SALT);

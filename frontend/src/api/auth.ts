@@ -14,4 +14,18 @@ const authWithToken = async (token: string): Promise<ServerResponse> => {
   return data as ServerResponse;
 };
 
-export { authWithToken };
+const signIn = async (formData: FormData): Promise<ServerResponse> => {
+  const url = `${SERVER_URL}${SERVER_ENDPOINTS.SIGN_IN}`;
+  const { data } = await axios.post(url, formData);
+
+  return data as ServerResponse;
+};
+
+const signUp = async (formData: FormData): Promise<ServerResponse> => {
+  const url = `${SERVER_URL}${SERVER_ENDPOINTS.SIGN_UP}`;
+  const { data } = await axios.post(url, formData);
+
+  return data as ServerResponse;
+};
+
+export { authWithToken, signIn, signUp };

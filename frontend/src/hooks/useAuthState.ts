@@ -48,7 +48,7 @@ const useAuthState = () => {
     }
   };
 
-  return { getAdminsAccess, leaveAdminsPage, authState };
+  return { getAdminsAccess, leaveAdminsPage, authState, setAuthState };
 };
 
 export default useAuthState;
