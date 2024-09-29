@@ -1,4 +1,4 @@
-import 'dotenv/config';
+require('dotenv').config();
 import app from './src/app';
 
 const DEFAULT_PORT = '3001';

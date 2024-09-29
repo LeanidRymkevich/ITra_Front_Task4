@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 const ROOT = '/';
 
 const JWT_SECRET: string = process.env.JWT_SECRET || 'af dafqwqefrqwe qfefqe';

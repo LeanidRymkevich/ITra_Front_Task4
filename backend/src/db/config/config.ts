@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { Dialect, Options } from 'sequelize';
 
 import { DevelopmentMode } from '../../types/types';
